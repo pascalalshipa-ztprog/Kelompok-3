@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760">
+  <rect width="1440" height="760" fill="#f4f7f3"/>
+  <text x="72" y="78" fill="#173c32" font-family="Segoe UI, sans-serif" font-size="34" font-weight="700">SuaraKampus · Entity Relationship Diagram</text>
+  <text x="72" y="112" fill="#65776d" font-family="Segoe UI, sans-serif" font-size="16">MySQL schema · primary keys, foreign keys, unique constraints, and deletion rules</text>
+
+  <path d="M440 327 H540" fill="none" stroke="#16816d" stroke-width="3"/>
+  <path d="M980 420 H1100" fill="none" stroke="#16816d" stroke-width="3"/>
+  <circle cx="440" cy="327" r="6" fill="#16816d"/>
+  <circle cx="540" cy="327" r="6" fill="#16816d"/>
+  <circle cx="980" cy="420" r="6" fill="#16816d"/>
+  <circle cx="1100" cy="420" r="6" fill="#16816d"/>
+  <text x="454" y="312" fill="#286b59" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">1</text>
+  <text x="514" y="312" fill="#286b59" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">0..*</text>
+  <text x="994" y="405" fill="#286b59" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">0..*</text>
+  <text x="1070" y="405" fill="#286b59" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">1</text>
+
+  <g font-family="Segoe UI, sans-serif">
+    <rect x="72" y="166" width="368" height="456" rx="10" fill="#fff" stroke="#cbd9d0" stroke-width="2"/>
+    <path d="M82 166h348a10 10 0 0 1 10 10v50H72v-50a10 10 0 0 1 10-10Z" fill="#173c32"/>
+    <text x="96" y="205" fill="#fff" font-size="22" font-weight="700">USERS</text>
+    <text x="96" y="260" fill="#16816d" font-size="14" font-weight="700">PK</text><text x="142" y="260" fill="#263a30" font-size="15">id · BIGINT</text>
+    <text x="96" y="300" fill="#263a30" font-size="15">name · VARCHAR(255) · NOT NULL</text>
+    <text x="96" y="340" fill="#16816d" font-size="14" font-weight="700">UK</text><text x="142" y="340" fill="#263a30" font-size="15">nim · VARCHAR(32) · NULL</text>
+    <text x="96" y="380" fill="#16816d" font-size="14" font-weight="700">UK</text><text x="142" y="380" fill="#263a30" font-size="15">email · VARCHAR(255)</text>
+    <text x="96" y="420" fill="#263a30" font-size="15">role · ENUM(student, admin)</text>
+    <text x="96" y="460" fill="#263a30" font-size="15">password · VARCHAR(255) · HASHED</text>
+    <text x="96" y="500" fill="#65776d" font-size="14">created_at · updated_at</text>
+    <line x1="94" y1="535" x2="418" y2="535" stroke="#e1e9e3"/>
+    <text x="96" y="568" fill="#65776d" font-size="13">One user can submit many complaints.</text>
+    <text x="96" y="592" fill="#65776d" font-size="12">Delete user → complaint.user_id becomes NULL</text>
+
+    <rect x="540" y="142" width="440" height="520" rx="10" fill="#fff" stroke="#cbd9d0" stroke-width="2"/>
+    <path d="M550 142h420a10 10 0 0 1 10 10v50H540v-50a10 10 0 0 1 10-10Z" fill="#147c65"/>
+    <text x="564" y="181" fill="#fff" font-size="22" font-weight="700">COMPLAINTS</text>
+    <text x="564" y="234" fill="#16816d" font-size="14" font-weight="700">PK</text><text x="610" y="234" fill="#263a30" font-size="15">id · BIGINT</text>
+    <text x="564" y="274" fill="#16816d" font-size="14" font-weight="700">FK</text><text x="610" y="274" fill="#263a30" font-size="15">user_id · BIGINT · NULL · SET NULL</text>
+    <text x="564" y="314" fill="#16816d" font-size="14" font-weight="700">FK</text><text x="610" y="314" fill="#263a30" font-size="15">category_id · BIGINT · RESTRICT</text>
+    <text x="564" y="354" fill="#263a30" font-size="15">title · VARCHAR(140)</text>
+    <text x="564" y="394" fill="#263a30" font-size="15">description · TEXT</text>
+    <text x="564" y="434" fill="#263a30" font-size="15">location · VARCHAR(180) · NULL</text>
+    <text x="564" y="474" fill="#263a30" font-size="15">status · ENUM</text>
+    <text x="610" y="500" fill="#65776d" font-size="13">Menunggu · Diproses · Selesai · Ditolak</text>
+    <text x="564" y="542" fill="#65776d" font-size="14">created_at · updated_at</text>
+    <line x1="562" y1="568" x2="958" y2="568" stroke="#e1e9e3"/>
+    <text x="564" y="600" fill="#65776d" font-size="13">Indexes: (user_id, created_at), (status, created_at)</text>
+    <text x="564" y="628" fill="#65776d" font-size="13">Belongs to one user and one category.</text>
+
+    <rect x="1100" y="190" width="270" height="410" rx="10" fill="#fff" stroke="#cbd9d0" stroke-width="2"/>
+    <path d="M1110 190h250a10 10 0 0 1 10 10v50h-270v-50a10 10 0 0 1 10-10Z" fill="#3b6f91"/>
+    <text x="1124" y="229" fill="#fff" font-size="20" font-weight="700">CATEGORIES</text>
+    <text x="1124" y="284" fill="#16816d" font-size="14" font-weight="700">PK</text><text x="1170" y="284" fill="#263a30" font-size="15">id · BIGINT</text>
+    <text x="1124" y="324" fill="#16816d" font-size="14" font-weight="700">UK</text><text x="1170" y="324" fill="#263a30" font-size="15">name · VARCHAR(80)</text>
+    <text x="1124" y="364" fill="#16816d" font-size="14" font-weight="700">UK</text><text x="1170" y="364" fill="#263a30" font-size="15">slug · VARCHAR(90)</text>
+    <text x="1124" y="404" fill="#263a30" font-size="15">is_active · BOOLEAN</text>
+    <text x="1124" y="444" fill="#65776d" font-size="14">created_at · updated_at</text>
+    <line x1="1122" y1="480" x2="1348" y2="480" stroke="#e1e9e3"/>
+    <text x="1124" y="515" fill="#65776d" font-size="13">A category groups many</text>
+    <text x="1124" y="538" fill="#65776d" font-size="13">complaints. In-use categories</text>
+    <text x="1124" y="561" fill="#65776d" font-size="13">cannot be deleted.</text>
+  </g>
+
+  <text x="72" y="708" fill="#65776d" font-family="Segoe UI, sans-serif" font-size="13">PK = primary key · FK = foreign key · UK = unique key · MySQL InnoDB / utf8mb4</text>
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1365" height="768" viewBox="0 0 1365 768" fill="none">
+  <rect width="1365" height="768" fill="#F7FBFF"/>
+  <path d="M0 0h156c-17 36-39 60-73 77C51 91 23 98 0 121V0Z" fill="#8EC2F5" fill-opacity=".76"/>
+  <path d="M0 0h118c-21 39-48 61-78 78L0 90V0Z" fill="#63A8EA" fill-opacity=".72"/>
+  <path d="M1110 0h255v183c-35-57-67-95-115-119-43-22-87-33-140-64Z" fill="#7DB8F0" fill-opacity=".74"/>
+  <path d="M0 397c91 30 157 93 231 153 89 73 202 124 353 137 206 18 315-34 462-69 129-31 228-29 319-2v152H0V397Z" fill="#E7F3FE"/>
+  <path d="M0 535c98 32 174 70 263 125 93 58 205 92 333 101 157 11 301-30 434-66 132-36 232-38 335-15v88H0V535Z" fill="#D8ECFC" fill-opacity=".8"/>
+  <path d="M0 731c184-14 357-21 530-4 139 14 287 22 433 5 146-17 267-44 402-28v64H0v-37Z" fill="#BDDDF8" fill-opacity=".64"/>
+
+  <g opacity=".77" fill="#4C91D3">
+    <path d="m78 104 44-20 45 20-45 21-44-21Z" fill="#78AEE1"/>
+    <path d="M93 107v21c16 12 43 12 59 0v-21l-30 14-29-14Z" fill="#A9CEF0"/>
+    <path d="m155 106 12 8v22h-6v-20l-8-5 2-5Z" fill="#6EA8DF"/>
+  </g>
+  <text x="66" y="186" fill="#3984C8" fill-opacity=".78" font-family="Arial, sans-serif" font-size="29" font-weight="700">Suaramu</text>
+  <text x="66" y="217" fill="#3984C8" fill-opacity=".78" font-family="Arial, sans-serif" font-size="29" font-weight="700">untuk Kampus</text>
+  <text x="66" y="251" fill="#3984C8" fill-opacity=".76" font-family="Arial, sans-serif" font-size="27" font-weight="400">yang Lebih Baik</text>
+  <rect x="67" y="275" width="49" height="5" rx="2.5" fill="#F0C95C"/>
+  <text x="67" y="309" fill="#3984C8" fill-opacity=".72" font-family="Arial, sans-serif" font-size="16">Sampaikan pengaduan,</text>
+  <text x="67" y="333" fill="#3984C8" fill-opacity=".72" font-family="Arial, sans-serif" font-size="16">berikan masukan,</text>
+  <text x="67" y="357" fill="#3984C8" fill-opacity=".72" font-family="Arial, sans-serif" font-size="16">wujudkan perubahan.</text>
+
+  <g fill="#D5E9FB">
+    <circle cx="1273" cy="35" r="5"/><circle cx="1299" cy="35" r="5"/><circle cx="1325" cy="35" r="5"/>
+    <circle cx="1273" cy="61" r="5"/><circle cx="1299" cy="61" r="5"/><circle cx="1325" cy="61" r="5"/>
+  </g>
+  <g stroke="#6FAAE0" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".78">
+    <path d="M1180 119h64c13 0 23 10 23 23v39c0 13-10 23-23 23h-26l-24 23v-23h-14c-13 0-23-10-23-23v-39c0-13 10-23 23-23Z"/>
+    <path d="m1281 138 12-10M1287 161l14-10M1287 184l12 10"/>
+  </g>
+  <g fill="#5F9BD4" opacity=".78"><circle cx="1189" cy="160" r="7"/><circle cx="1215" cy="160" r="7"/><circle cx="1241" cy="160" r="7"/></g>
+
+  <g transform="translate(-18 474)">
+    <path d="M0 115 56 93l53 17 58-33 79 21 55-17 104 31 52-18 83 28v152H0V115Z" fill="#77A9D9"/>
+    <path d="M0 126 58 110l52 14 52-30 79 19 57-15 104 31 52-17 86 31v129H0V126Z" fill="#F7FBFF"/>
+    <path d="m16 93 108-46 107 34 95-35 133 46v32H16V93Z" fill="#3F80C3"/>
+    <path d="M39 99h397v196H39V99Z" fill="#D6EAFB"/>
+    <path d="M47 108h379v187H47V108Z" fill="#F6FBFF"/>
+    <path d="M169 108h110v187H169V108Z" fill="#8BBCE8"/>
+    <path d="M181 120h86v164h-86V120Z" fill="#326FAF"/>
+    <path d="M193 132h27v50h-27v-50ZM229 132h26v50h-26v-50ZM193 193h27v37h-27v-37ZM229 193h26v37h-26v-37Z" fill="#B9D9F5"/>
+    <path d="M65 124h83v14H65v-14ZM65 153h83v14H65v-14ZM65 182h83v14H65v-14ZM300 124h103v14H300v-14ZM300 153h103v14H300v-14ZM300 182h103v14H300v-14Z" fill="#77A9D9"/>
+    <path d="M67 214h77v81H67v-81ZM302 214h99v81h-99v-81Z" fill="#8BBCE8"/>
+    <path d="M78 225h55v70H78v-70ZM314 225h75v70h-75v-70Z" fill="#3C7AB9"/>
+    <path d="M173 54V0" stroke="#637D95" stroke-width="5"/>
+    <path d="M177 5c20-5 26 9 44 5v21c-18 5-24-9-44-4V5Z" fill="#E8454F"/>
+    <path d="M177 27c20-5 26 9 44 5v12c-18 5-24-9-44-4V27Z" fill="#fff"/>
+    <path d="M0 288h457" stroke="#6E9FD0" stroke-width="6"/>
+  </g>
+
+  <g opacity=".9">
+    <g transform="translate(1004 537)">
+      <path d="M38 43c2-22 17-38 37-38 21 0 36 16 38 38l-8 39H45l-7-39Z" fill="#4B82C3"/>
+      <path d="M55 42c0-14 8-24 20-24s20 10 20 24v24H55V42Z" fill="#E5BCA9"/>
+      <path d="M28 80c6-18 20-27 47-27s42 9 48 27l18 166H10L28 80Z" fill="#3678BE"/>
+      <path d="M29 91 5 108l-14 82 25 6 25-83-12-22ZM122 91l24 17 14 82-25 6-25-83 12-22Z" fill="#2F6FB0"/>
+      <path d="M48 91 74 75l26 16-7 38H55l-7-38Z" fill="#264E7F"/>
+      <path d="M55 129h40v80H55v-80Z" fill="#2B5F99"/>
+      <path d="M50 246h31v73H42l8-73ZM86 246h31l13 73H91l-5-73Z" fill="#244C78"/>
+      <path d="M42 318h43v13H29c0-7 5-13 13-13ZM91 318h43c9 0 14 6 14 13h-52l-5-13Z" fill="#253D59"/>
+    </g>
+    <g transform="translate(1124 529)">
+      <path d="M24 50c2-29 17-47 41-47 23 0 40 18 42 47l-6 28H31l-7-28Z" fill="#244B78"/>
+      <path d="M43 52c0-17 8-27 22-27s22 10 22 27v25H43V52Z" fill="#E7C3B1"/>
+      <path d="M21 81c8-17 22-25 44-25s37 8 45 25l23 163H0L21 81Z" fill="#3976B8"/>
+      <path d="m20 96-20 24-10 70 24 5 22-75-16-24ZM109 96l21 24 11 70-24 5-22-75 14-24Z" fill="#2C609B"/>
+      <path d="M30 95 65 73l36 22-10 143H39L30 95Z" fill="#28588F"/>
+      <path d="M44 111h42v8H44v-8ZM44 135h42v8H44v-8Z" fill="#477FBD"/>
+      <path d="M37 244h32v70H30l7-70ZM72 244h32l14 70H77l-5-70Z" fill="#234B79"/>
+      <path d="M31 313h40v13H18c0-7 5-13 13-13ZM77 313h40c8 0 14 6 14 13H80l-3-13Z" fill="#223A56"/>
+    </g>
+    <g transform="translate(1262 538)">
+      <path d="M21 47c2-24 16-40 38-40 21 0 35 16 37 40l-6 27H27l-6-27Z" fill="#3977B8"/>
+      <path d="M39 48c0-15 8-24 20-24s20 9 20 24v25H39V48Z" fill="#DCAA92"/>
+      <path d="M17 81c8-17 20-25 42-25s36 8 43 25l18 164H0L17 81Z" fill="#3F80C3"/>
+      <path d="M18 94 0 113l-10 72 22 5 20-76-14-20ZM102 94l19 19 10 72-22 5-20-76 13-20Z" fill="#316CA9"/>
+      <path d="M29 96 59 76l31 20-8 138H37L29 96Z" fill="#285A91"/>
+      <path d="M36 112h45v7H36v-7ZM36 136h45v7H36v-7Z" fill="#4B83BE"/>
+      <path d="M34 245h31v69H27l7-69ZM68 245h31l13 69H73l-5-69Z" fill="#244D79"/>
+      <path d="M27 314h39v13H14c0-7 5-13 13-13ZM73 314h39c8 0 13 6 13 13H76l-3-13Z" fill="#223A56"/>
+    </g>
+  </g>
+</svg>
