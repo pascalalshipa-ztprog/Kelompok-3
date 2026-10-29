@@ -1,8 +1,6 @@
 *.log
 .DS_Store
-.env
-.env.backup
-.env.production
+.env*
 .phpactor.json
 .phpunit.result.cache
 /.codex
@@ -15,6 +13,7 @@
 /auth.json
 /node_modules
 database/*.sqlite
+database/*.sql
 /public/build
 /public/fonts-manifest.dev.json
 /public/hot

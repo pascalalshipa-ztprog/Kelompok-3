@@ -1,5 +1,25 @@
 # Sistem Pengaduan Mahasiswa
 
+## Instalasi Lokal
+
+Persyaratan: PHP 8.3 atau lebih baru dan Composer. Proyek tidak memerlukan Node.js.
+
+```powershell
+composer install
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+Composer membuat `.env` lokal yang diabaikan Git dengan konfigurasi SQLite awal jika
+berkas tersebut belum ada. Database SQLite dibuat otomatis; konfigurasi lokal ini
+tidak menggantikan `.env` yang sudah ada.
+
+Seeder menyediakan akun demo:
+
+- Mahasiswa: NIM `25170023`, kata sandi `password`
+- Admin: `admin@kampus.ac.id`, kata sandi `password`
+
 ## 1. Deskripsi Proyek
 
 Sistem Pengaduan Mahasiswa adalah aplikasi berbasis web yang dibuat dengan PHP untuk membantu mahasiswa menyampaikan keluhan, aspirasi, dan kebutuhan terkait kampus. Sistem ini juga memungkinkan admin untuk memproses, menindaklanjuti, dan menanggapi pengaduan secara transparan.

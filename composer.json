@@ -35,7 +35,6 @@
     "scripts": {
         "setup": [
             "composer install",
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force"
         ],
@@ -47,14 +46,12 @@
             "@php artisan test"
         ],
         "post-autoload-dump": [
+            "@php -r \"if (!file_exists('.env')) { file_put_contents('.env', 'APP_NAME=SuaraKampus' . PHP_EOL . 'APP_ENV=local' . PHP_EOL . 'APP_KEY=' . PHP_EOL . 'APP_DEBUG=true' . PHP_EOL . 'APP_URL=http://localhost:8000' . PHP_EOL . 'DB_CONNECTION=sqlite' . PHP_EOL); } file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
