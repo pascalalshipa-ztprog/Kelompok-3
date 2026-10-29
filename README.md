@@ -1,8 +1,25 @@
 # Sistem Pengaduan Mahasiswa
 
-## Instalasi Lokal
+Aplikasi web untuk mahasiswa mengirim dan memantau pengaduan kampus, serta untuk
+admin mengelola laporan dan akun pengguna.
 
-Persyaratan: PHP 8.3 atau lebih baru dan Composer. Proyek tidak memerlukan Node.js.
+## Teknologi
+
+- PHP 8.3 atau lebih baru
+- Laravel 13
+- Database SQLite secara default; MySQL juga didukung
+- Blade dan CSS statis (`public/css`)
+- Composer
+
+Aplikasi tidak memerlukan Node.js, npm, Vite, atau proses build frontend.
+Fitur lupa kata sandi mengirim tautan reset melalui email dan memerlukan
+konfigurasi mail pada `.env`.
+
+## Menjalankan Secara Lokal
+
+Persyaratan: PHP dengan ekstensi `pdo_sqlite` dan Composer.
+
+Dari folder proyek, jalankan:
 
 ```powershell
 composer install
@@ -11,176 +28,95 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-Composer membuat `.env` lokal yang diabaikan Git dengan konfigurasi SQLite awal jika
-berkas tersebut belum ada. Database SQLite dibuat otomatis; konfigurasi lokal ini
-tidak menggantikan `.env` yang sudah ada.
+Buka `http://127.0.0.1:8000` di browser. Saat `.env` belum ada, skrip Composer
+membuat konfigurasi lokal dengan SQLite dan membuat file database
+`database/database.sqlite`. File konfigurasi dan database lokal tidak perlu
+diunduh atau disalin dari repository. Jika `.env` sudah tersedia, Composer tidak
+menimpanya; perintah migrasi akan menggunakan koneksi database yang ditentukan
+di sana.
 
-Seeder menyediakan akun demo:
+### Menggunakan MySQL (opsional)
 
-- Mahasiswa: NIM `25170023`, kata sandi `password`
-- Admin: `admin@kampus.ac.id`, kata sandi `password`
+Buat database kosong, lalu atur koneksi pada `.env`, misalnya:
 
-## 1. Deskripsi Proyek
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=pengaduan_mahasiswa
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-Sistem Pengaduan Mahasiswa adalah aplikasi berbasis web yang dibuat dengan PHP untuk membantu mahasiswa menyampaikan keluhan, aspirasi, dan kebutuhan terkait kampus. Sistem ini juga memungkinkan admin untuk memproses, menindaklanjuti, dan menanggapi pengaduan secara transparan.
+Pastikan layanan MySQL berjalan, kemudian jalankan:
 
-Tujuan utama dari proyek ini adalah:
+```powershell
+php artisan migrate --seed
+```
 
-- Memudahkan mahasiswa mengajukan pengaduan.
-- Membantu admin mengelola pengaduan dengan sistem yang terstruktur.
-- Menampilkan status pengaduan secara jelas dan mudah dipantau.
-- Menciptakan proses komunikasi yang lebih transparan antara mahasiswa dan pihak kampus.
+## Akun Demo
 
-## 2. Informasi Umum
+Seeder menyediakan akun berikut untuk pengembangan lokal:
 
-- Mata Kuliah: Pemrograman Web Lanjut (INF3021)
-- SKS: 3
-- Semester: 3
-- Model Pembelajaran: Project-Based Learning (PjBL)
-- Nama Proyek: Sistem Pengaduan Mahasiswa
+| Peran | NIM / Email | Kata sandi |
+|---|---|---|
+| Mahasiswa | `25170023` | `password` |
+| Admin | `admin@kampus.ac.id` | `password` |
+
+Ganti kredensial demo sebelum aplikasi digunakan di lingkungan bersama atau
+produksi.
+
+## Fitur
+
+### Mahasiswa
+
+- Mendaftar dan masuk menggunakan NIM atau email.
+- Membuat pengaduan dengan kategori, judul, deskripsi, dan lokasi opsional.
+- Melihat, mencari, dan memantau pengaduan milik sendiri.
+- Mengubah atau menghapus pengaduan sendiri selama statusnya `Menunggu`.
+- Mengubah email dan foto profil, serta mengganti kata sandi.
+- Nama dan NIM tidak dapat diubah dari halaman profil.
+
+### Admin
+
+- Melihat dan mencari seluruh pengaduan.
+- Mengubah status pengaduan menjadi `Menunggu`, `Diproses`, `Selesai`, atau
+  `Ditolak`.
+- Mengelola akun pengguna.
+- Mengunduh rekap pengaduan dalam format CSV.
+
+Endpoint JSON `GET /api/complaints` juga tersedia bagi pengguna yang sudah
+masuk. Data mahasiswa dibatasi pada pengaduan miliknya, sedangkan admin dapat
+melihat semua pengaduan.
+
+## Pengujian
+
+Jalankan seluruh tes dengan:
+
+```powershell
+php artisan test
+```
+
+## Struktur Proyek
+
+- `app/` — model, controller, policy, dan logika aplikasi.
+- `database/migrations/` — skema database.
+- `database/seeders/` — kategori dan data demo.
+- `resources/views/` — halaman Blade.
+- `public/css/` — stylesheet statis.
+- `routes/web.php` — rute halaman dan endpoint JSON.
+- `tests/` — tes fitur dan unit.
+- `docs/ERD.md` — ERD, kamus data, dan matriks hak akses.
+
+## Informasi Proyek
+
+- Nama: Sistem Pengaduan Mahasiswa
 - Kelompok: 3
-- Tujuan MVP: Membuat alur pengajuan, tracking status, dan penanganan pengaduan secara jelas.
+- Mata kuliah: Pemrograman Web Lanjut (INF3021)
 
-## 3. Identitas Kelompok
+### Anggota
 
-- Cantika Dwi Utari — NIM 25170023 — Koordinator Proyek
-- Hafizh Zaidan Muttaqien — NIM 25170006 — Backend Developer
-- Naufal Marzuki Fadhil — NIM 25170018 — Frontend/UI Developer
-- Paskalino Adrianus Warorowai — NIM 25170024 — Database & QA Documentation
-
-## 4. Role dan Hak Akses
-
-### 4.1 Mahasiswa
-
-Mahasiswa dapat:
-
-- Mengajukan pengaduan atau aspirasi.
-- Mengisi judul, kategori, isi pengaduan, dan lampiran.
-- Melihat riwayat pengaduan milik sendiri.
-- Memantau status pengaduan.
-- Membaca tanggapan dari admin.
-- Memberikan feedback atau respon terkait pengaduan.
-
-Mahasiswa tidak boleh:
-
-- Mengakses pengaduan milik mahasiswa lain.
-- Mengubah status pengaduan.
-- Mengelola akun pengguna lain.
-- Menghapus log audit sistem.
-
-### 4.2 Admin / Petugas
-
-Admin dapat:
-
-- Melihat seluruh daftar pengaduan.
-- Memverifikasi pengaduan yang masuk.
-- Mengubah status pengaduan menjadi Pending, Diproses, Selesai, atau Ditolak.
-- Memberikan tanggapan resmi kepada mahasiswa.
-- Melihat laporan rekapitulasi pengaduan.
-- Mengelola akun pengguna lain.
-
-Admin tidak boleh:
-
-- Mengubah kode sumber sistem tanpa izin.
-- Menghapus log audit secara permanen.
-
-## 5. Requirement Fungsional
-
-### 5.1 Fitur Utama
-
-- Login untuk mahasiswa dan admin.
-- Form pengaduan dengan judul, kategori, isi, dan lampiran.
-- Riwayat pengaduan untuk setiap mahasiswa.
-- Tabel daftar pengaduan untuk admin.
-- Update status dan respons admin.
-- Pencarian dan filter berdasarkan kategori atau status.
-- Laporan rekapitulasi pengaduan.
-- Pengaturan profil dan password pengguna.
-
-### 5.2 Prioritas
-
-- Must Have: autentikasi, form pengaduan, tracking status, verifikasi, dan respons admin.
-- Should Have: pencarian, filter, dan laporan rekapitulasi.
-- Could Have: edit profil dan ganti password.
-- Out of Scope: notifikasi real-time, aplikasi mobile native, dan AI auto-categorization.
-
-## 6. Requirement Non-Fungsional
-
-- Security: password disimpan dengan hashing Bcrypt dan akses diatur berdasarkan role session.
-- Usability: pesan validasi jelas dan antarmuka responsif.
-- Performance: halaman utama dapat dimuat dengan cepat dan tetap nyaman saat data banyak.
-- Compatibility: aplikasi dapat diakses di browser modern dan dikelola melalui Git dengan struktur proyek yang rapi.
-
-## 7. Alur Proses Pengaduan
-
-1. Mahasiswa login ke sistem.
-2. Mahasiswa mengajukan pengaduan baru.
-3. Sistem menyimpan pengaduan dengan status awal Pending.
-4. Admin membuka daftar pengaduan dan memeriksa isinya.
-5. Admin menindaklanjuti pengaduan dan mengubah status.
-6. Admin memberikan tanggapan resmi.
-7. Mahasiswa melihat hasil penanganan dan status akhir.
-8. Mahasiswa dapat memberikan feedback terhadap solusi yang diberikan.
-
-## 8. Struktur Halaman Utama
-
-- Halaman Login
-- Dashboard Mahasiswa
-- Form Pengaduan
-- Riwayat Pengaduan
-- Dashboard Admin
-- Kelola Pengaduan Admin
-- Laporan Rekapitulasi
-- Profil Pengguna
-
-## 9. Teknologi yang Disarankan
-
-- Bahasa pemrograman: PHP
-- Database: MySQL
-- Arsitektur: MVC
-- Framework: Laravel atau CodeIgniter 4
-- Security: Bcrypt
-- Frontend: Bootstrap atau Tailwind
-
-## 10. Struktur Database yang Direkomendasikan
-
-- users
-  - Menyimpan data akun dan role pengguna.
-- submissions
-  - Menyimpan data pengaduan mahasiswa.
-- submission_comments
-  - Menyimpan tanggapan dari admin.
-- status_logs
-  - Menyimpan riwayat perubahan status pengaduan.
-
-## 11. Struktur Repository
-
-- README.md
-- docs/
-- src/
-- controllers/
-- models/
-- views/
-- middlewares/
-- repositories/
-- routes/
-- migrations/
-- public/
-
-## 12. Checklist Penyelesaian
-
-- Semua halaman MVP memiliki wireframe.
-- Alur pengajuan sampai detail riwayat konsisten.
-- Role dan hak akses sesuai kebutuhan.
-- Tombol utama terlihat jelas.
-- Form pengaduan memiliki judul, kategori, isi, dan upload file.
-- Tabel admin memiliki aksi detail, ubah status, dan tanggapan.
-- Pesan sukses dan error tersedia.
-- Layout responsif menggunakan Bootstrap atau Tailwind.
-- Fitur di luar scope tidak ditambahkan tanpa alasan.
-- Nama field database dan input form konsisten.
-- Struktur MVC diterapkan dengan rapi.
-
-## 13. Kesimpulan
-
-Proyek Sistem Pengaduan Mahasiswa ini dirancang untuk membantu kampus dalam menangani pengaduan mahasiswa secara lebih cepat, terstruktur, dan transparan. Dengan pendekatan MVC, penggunaan PHP, dan fitur utama yang terarah, sistem ini sangat sesuai untuk kebutuhan MVP dalam pembelajaran Pemrograman Web Lanjut.
+- Cantika Dwi Utari — NIM 25170023
+- Hafizh Zaidan Muttaqien — NIM 25170006
+- Naufal Marzuki Fadhil — NIM 25170018
+- Paskalino Adrianus Warorowai — NIM 25170024
