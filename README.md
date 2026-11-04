@@ -106,6 +106,7 @@ php artisan test
 - `public/css/` — stylesheet statis.
 - `routes/web.php` — rute halaman dan endpoint JSON.
 - `tests/` — tes fitur dan unit.
+- `docs/README.md` — penjelasan detail struktur dan alur backend.
 - `docs/ERD.md` — ERD, kamus data, dan matriks hak akses.
 
 ## Informasi Proyek
