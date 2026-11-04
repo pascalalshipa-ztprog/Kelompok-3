@@ -5,11 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Complaint;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function __invoke(Request $request): View|RedirectResponse
     {
+        if ($request->routeIs('admin.dashboard') && ! $request->user()->isAdmin()) {
+            abort(403);
+        }
+
+        if ($request->routeIs('dashboard') && $request->user()->isAdmin()) {
+            abort(403);
+        }
+
+        $dashboardRoute = $request->user()->isAdmin()
+            ? 'admin.dashboard'
+            : 'dashboard';
+
+        if (! $request->routeIs($dashboardRoute)) {
+            return redirect()->route($dashboardRoute);
+        }
+
         $complaints = Complaint::query();
 
         if (! $request->user()->isAdmin()) {
@@ -28,7 +45,11 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('dashboard.index', [
+        $view = $request->user()->isAdmin()
+            ? 'dashboard.admin'
+            : 'dashboard.user';
+
+        return view($view, [
             'summary' => $summary,
             'totalCount' => (clone $complaints)->count(),
             'recentComplaints' => $recentComplaints,

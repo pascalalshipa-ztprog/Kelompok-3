@@ -85,7 +85,9 @@ class AuthController extends Controller
         RateLimiter::clear($throttleKey);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        $dashboardRoute = $request->user()->isAdmin() ? 'admin.dashboard' : 'dashboard';
+
+        return redirect()->intended(route($dashboardRoute));
     }
 
     private function loginThrottleKey(string $identity, Request $request): string

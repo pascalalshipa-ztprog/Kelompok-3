@@ -10,7 +10,7 @@
 <body class="portal-page">
     <div class="portal-shell">
         <aside class="sidebar" id="portal-sidebar" aria-label="Sidebar navigasi">
-            <a class="brand brand--sidebar" href="{{ route('dashboard') }}">
+            <a class="brand brand--sidebar" href="{{ route(auth()->user()->isAdmin() ? 'admin.dashboard' : 'dashboard') }}">
                 <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 19 6v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 <span><strong>SuaraKampus</strong><small>Portal Pengaduan</small></span>
             </a>
@@ -21,7 +21,9 @@
             </div>
             <p class="nav-caption">{{ auth()->user()->isAdmin() ? 'ADMINISTRASI' : 'RUANG MAHASISWA' }}</p>
             <nav class="side-nav" aria-label="Navigasi utama">
-                <a class="{{ request()->routeIs('dashboard') ? 'is-active' : '' }}" @if (request()->routeIs('dashboard')) aria-current="page" @endif href="{{ route('dashboard') }}">
+                <a class="{{ request()->routeIs('dashboard', 'admin.dashboard') ? 'is-active' : '' }}"
+                   @if (request()->routeIs('dashboard', 'admin.dashboard')) aria-current="page" @endif
+                   href="{{ route(auth()->user()->isAdmin() ? 'admin.dashboard' : 'dashboard') }}">
                     <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m4 10 8-7 8 7v9a2 2 0 0 1-2 2h-4v-6h-4v6H6a2 2 0 0 1-2-2v-9Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <span class="nav-label">Ringkasan</span><span class="nav-chevron" aria-hidden="true">›</span>
                 </a>
