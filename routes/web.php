@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 use App\Http\Controllers\Api\ComplaintController as ApiComplaintController;
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/user', DashboardController::class)->name('dashboard');
     Route::get('/admin', DashboardController::class)->name('admin.dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/photo', [ProfileController::class, 'photo'])->name('profile.photo');
