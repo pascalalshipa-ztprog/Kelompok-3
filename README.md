@@ -1,3 +1,16 @@
+## Informasi Proyek
+
+- Nama        : Sistem Pengaduan Mahasiswa
+- Kelompok    : 3
+- Mata kuliah : Pemrograman Web Lanjut (INF3021)
+
+### Anggota
+
+- Cantika Dwi Utari — NIM 25170023            [Documentasi]
+- Hafizh Zaidan Muttaqien — NIM 25170006      [Frontend]
+- Naufal Marzuki Fadhil — NIM 25170018        [Backend]
+- Paskalino Adrianus Warorowai — NIM 25170024 [Kordinator | DATABASE]
+
 # Sistem Pengaduan Mahasiswa
 
 Aplikasi web untuk mahasiswa mengirim dan memantau pengaduan kampus, serta untuk
@@ -119,15 +132,3 @@ php artisan test
 - `docs/README.md` — penjelasan detail struktur dan alur backend.
 - `docs/ERD.md` — ERD, kamus data, dan matriks hak akses.
 
-## Informasi Proyek
-
-- Nama: Sistem Pengaduan Mahasiswa
-- Kelompok: 3
-- Mata kuliah: Pemrograman Web Lanjut (INF3021)
-
-### Anggota
-
-- Cantika Dwi Utari — NIM 25170023
-- Hafizh Zaidan Muttaqien — NIM 25170006
-- Naufal Marzuki Fadhil — NIM 25170018
-- Paskalino Adrianus Warorowai — NIM 25170024
