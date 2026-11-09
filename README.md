@@ -89,6 +89,14 @@ Endpoint JSON `GET /api/complaints` juga tersedia bagi pengguna yang sudah
 masuk. Data mahasiswa dibatasi pada pengaduan miliknya, sedangkan admin dapat
 melihat semua pengaduan.
 
+### Autentikasi dan Session
+
+Setelah login, mahasiswa diarahkan ke dashboard mahasiswa (`/user`) dan admin
+ke dashboard admin (`/admin`). Jika URL dashboard role lain tersimpan sebagai
+tujuan redirect di session, tujuan tersebut diabaikan dan pengguna diarahkan ke
+dashboard sesuai rolenya. Redirect ke halaman lain yang diminta sebelum login
+tetap dipertahankan.
+
 ## Pengujian
 
 Jalankan seluruh tes dengan:
@@ -106,6 +114,8 @@ php artisan test
 - `public/css/` — stylesheet statis.
 - `routes/web.php` — rute halaman dan endpoint JSON.
 - `tests/` — tes fitur dan unit.
+- `tests/Feature/AuthFlowTest.php` — tes autentikasi dan redirect dashboard
+  sesuai role.
 - `docs/README.md` — penjelasan detail struktur dan alur backend.
 - `docs/ERD.md` — ERD, kamus data, dan matriks hak akses.
 

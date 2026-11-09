@@ -85,7 +85,16 @@ class AuthController extends Controller
         RateLimiter::clear($throttleKey);
         $request->session()->regenerate();
 
-        $dashboardRoute = $request->user()->isAdmin() ? 'admin.dashboard' : 'dashboard';
+        $isAdmin = $request->user()->isAdmin();
+        $dashboardRoute = $isAdmin ? 'admin.dashboard' : 'dashboard';
+        $otherDashboardRoute = $isAdmin ? 'dashboard' : 'admin.dashboard';
+        $intendedUrl = $request->session()->get('url.intended');
+        $intendedPath = is_string($intendedUrl) ? parse_url($intendedUrl, PHP_URL_PATH) : null;
+        $otherDashboardPath = parse_url(route($otherDashboardRoute), PHP_URL_PATH);
+
+        if ($intendedPath === $otherDashboardPath) {
+            $request->session()->forget('url.intended');
+        }
 
         return redirect()->intended(route($dashboardRoute));
     }

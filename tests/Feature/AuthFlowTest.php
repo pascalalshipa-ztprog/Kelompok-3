@@ -232,7 +232,37 @@ class AuthFlowTest extends TestCase
         ]);
 
         $this->post(route('login.store'), ['identity' => 'admin@kampus.ac.id', 'password' => 'password123'])
+            ->assertRedirect(route('admin.dashboard'));
+
+        $this->assertAuthenticatedAs($admin);
+    }
+
+    public function test_student_login_ignores_an_intended_admin_dashboard(): void
+    {
+        $student = User::factory()->create(['nim' => '25170018', 'password' => 'password123']);
+
+        $this->get(route('admin.dashboard'))
+            ->assertRedirect(route('login'));
+
+        $this->post(route('login.store'), ['identity' => '25170018', 'password' => 'password123'])
             ->assertRedirect(route('dashboard'));
+
+        $this->assertAuthenticatedAs($student);
+    }
+
+    public function test_admin_login_ignores_an_intended_student_dashboard(): void
+    {
+        $admin = User::factory()->create([
+            'email' => 'admin@kampus.ac.id',
+            'role' => 'admin',
+            'password' => 'password123',
+        ]);
+
+        $this->get(route('dashboard'))
+            ->assertRedirect(route('login'));
+
+        $this->post(route('login.store'), ['identity' => 'admin@kampus.ac.id', 'password' => 'password123'])
+            ->assertRedirect(route('admin.dashboard'));
 
         $this->assertAuthenticatedAs($admin);
     }
