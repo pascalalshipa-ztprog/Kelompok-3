@@ -12,12 +12,12 @@
     </section>
 
     <section class="panel table-panel">
-        <form class="search-bar" method="GET" action="{{ route('users.index') }}">
+        <form class="search-bar" method="GET" action="{{ route('admin.users.index') }}">
             <label class="sr-only" for="search">Cari pengguna</label>
             <input id="search" name="search" value="{{ $search }}" placeholder="Cari nama, NIM, atau email">
             <button type="submit" class="primary-button primary-button--link">Cari</button>
             @if ($search !== '')
-                <a class="text-link" href="{{ route('users.index') }}">Reset</a>
+                <a class="text-link" href="{{ route('admin.users.index') }}">Reset</a>
             @endif
         </form>
 
@@ -47,9 +47,9 @@
                                 <td><span class="user-role {{ $user->isAdmin() ? 'user-role--admin' : '' }}">{{ $user->isAdmin() ? 'Admin' : 'Mahasiswa' }}</span></td>
                                 <td>{{ $user->created_at->format('d M Y') }}</td>
                                 <td class="user-actions">
-                                    <a class="text-link" href="{{ route('users.edit', $user) }}">Ubah</a>
+                                    <a class="text-link" href="{{ route('admin.users.edit', $user) }}">Ubah</a>
                                     @if (auth()->user()->isNot($user))
-                                        <form method="POST" action="{{ route('users.destroy', $user) }}" onsubmit="return confirm('Hapus akun ini? Pengaduannya tetap tersimpan.')">
+                                        <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Hapus akun ini? Pengaduannya tetap tersimpan.')">
                                             @csrf
                                             @method('DELETE')
                                             <button class="delete-button" type="submit">Hapus</button>

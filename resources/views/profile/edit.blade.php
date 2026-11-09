@@ -3,6 +3,7 @@
 @section('title', 'Profil Saya')
 
 @section('content')
+    @php($profileRoutePrefix = $user->isAdmin() ? 'admin.profile' : 'profile')
     <div class="profile-page">
         <section class="page-heading">
             <div>
@@ -18,7 +19,7 @@
                     <div class="profile-photo-preview">
                         <img
                             id="profile-photo-preview"
-                            src="{{ $user->profile_photo_path ? route('profile.photo') : '' }}"
+                            src="{{ $user->profile_photo_path ? route($profileRoutePrefix.'.photo') : '' }}"
                             alt="Foto profil {{ $user->name }}"
                             @if (! $user->profile_photo_path) hidden @endif
                         >
@@ -31,7 +32,7 @@
                     </div>
                 </div>
 
-                <form class="profile-form" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                <form class="profile-form" method="POST" action="{{ route($profileRoutePrefix.'.update') }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

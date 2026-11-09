@@ -14,12 +14,7 @@ a { color: inherit; }
 .brand-mark svg { width: 23px; height: 23px; }
 .brand--sidebar strong { display: block; color: #fff; font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 800; }
 .brand--sidebar small { display: block; margin-top: 5px; color: #a5bdb2; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
-.sidebar-role { min-height: 62px; display: flex; align-items: center; gap: 11px; margin: 23px 1px 0; padding: 10px 12px; background: rgba(255, 255, 255, .055); border: 1px solid rgba(255, 255, 255, .09); border-radius: 12px; }
-.sidebar-role-icon { width: 34px; height: 34px; display: grid; place-items: center; color: #aaf0d5; background: rgba(72, 193, 154, .15); border: 1px solid rgba(111, 218, 180, .2); border-radius: 10px; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 800; }
-.sidebar-role > span:nth-child(2) { min-width: 0; display: grid; gap: 4px; }
-.sidebar-role small { color: #8eaa9b; font-size: 8px; font-weight: 800; letter-spacing: 1px; }
-.sidebar-role strong { color: #f0f8f3; font-size: 11px; font-weight: 700; }
-.sidebar-role-dot, .profile-status { width: 8px; height: 8px; flex: 0 0 auto; margin-left: auto; background: #52d6a2; border: 2px solid rgba(82, 214, 162, .2); border-radius: 50%; box-sizing: content-box; }
+.profile-status { width: 8px; height: 8px; flex: 0 0 auto; margin-left: auto; background: #52d6a2; border: 2px solid rgba(82, 214, 162, .2); border-radius: 50%; box-sizing: content-box; }
 .nav-caption { margin: 29px 10px 11px; color: #89a79a; font-size: 9px; font-weight: 800; letter-spacing: 1.35px; }
 .side-nav { display: grid; gap: 6px; }
 .side-nav a { position: relative; min-height: 46px; display: flex; align-items: center; gap: 12px; padding: 0 11px; color: #b7ccc1; border: 1px solid transparent; border-radius: 10px; font-size: 12px; font-weight: 600; text-decoration: none; transition: color .16s ease, background .16s ease, border-color .16s ease, transform .16s ease; }
@@ -75,6 +70,18 @@ a { color: inherit; }
 .stat-label { color: #718078; font-size: 11px; font-weight: 600; }
 .stat-card strong { color: #1d3028; font-family: 'Manrope', sans-serif; font-size: 27px; line-height: 1; }
 .stat-card small { color: #89958e; font-size: 10px; }
+.analytics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.analytics-card { min-width: 0; padding: 19px 21px; }
+.analytics-heading h2 { margin: 0; font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 800; }
+.analytics-heading p { margin: 5px 0 0; color: #87938c; font-size: 11px; }
+.analytics-chart { min-height: 220px; display: flex; align-items: center; justify-content: center; gap: 24px; padding: 18px 0 4px; }
+.pie-chart { width: min(180px, 48%); aspect-ratio: 1; flex: 0 0 auto; background: var(--pie-gradient); border: 1px solid rgba(29, 48, 40, .08); border-radius: 50%; }
+.analytics-legend { min-width: 0; }
+.analytics-total { display: block; margin-bottom: 12px; color: #1d3028; font-family: 'Manrope', sans-serif; font-size: 19px; }
+.analytics-legend ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.analytics-legend li { display: grid; grid-template-columns: 10px minmax(68px, 1fr) auto; align-items: center; gap: 8px; color: #718078; font-size: 11px; }
+.analytics-legend li strong { color: #1d3028; font-weight: 700; }
+.pie-legend-swatch { width: 9px; height: 9px; background: var(--legend-color); border-radius: 50%; }
 .panel { background: #fff; border: 1px solid #e4ebe5; border-radius: 8px; }
 .table-panel { overflow: hidden; }
 .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 19px 21px; border-bottom: 1px solid #edf1ed; }
@@ -185,18 +192,13 @@ td small { display: block; max-width: 235px; margin-top: 4px; overflow: hidden; 
     .content { padding: 25px 22px; }
     .topbar { padding: 0 22px; }
     .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .analytics-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
     .portal-shell { display: block; }
     .sidebar { position: static; height: auto; min-height: 0; overflow: visible; padding: 13px 14px 10px; border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .09); }
     .brand--sidebar { min-height: 45px; padding: 0 2px; }
     .brand-mark { width: 38px; height: 38px; border-radius: 11px; }
-    .sidebar-role { min-height: 43px; gap: 8px; margin: 11px 1px 0; padding: 5px 9px; border-radius: 9px; }
-    .sidebar-role-icon { width: 27px; height: 27px; border-radius: 8px; font-size: 11px; }
-    .sidebar-role > span:nth-child(2) { display: flex; align-items: baseline; gap: 7px; }
-    .sidebar-role small { font-size: 7px; }
-    .sidebar-role strong { font-size: 10px; }
-    .sidebar-role-dot { width: 6px; height: 6px; }
     .nav-caption { display: block; margin: 14px 5px 7px; font-size: 8px; }
     .side-nav { display: flex; gap: 6px; overflow-x: auto; padding: 0 0 8px; scrollbar-width: thin; scrollbar-color: rgba(172, 210, 190, .35) transparent; }
     .side-nav a { min-height: 38px; flex: 0 0 auto; gap: 7px; padding: 0 9px; border-radius: 8px; font-size: 10px; }
@@ -222,6 +224,9 @@ td small { display: block; max-width: 235px; margin-top: 4px; overflow: hidden; 
     .page-heading h1 { font-size: 23px; }
     .stats-grid { gap: 9px; margin-bottom: 15px; }
     .stat-card { padding: 13px; }
+    .analytics-card { padding: 16px 14px; }
+    .analytics-chart { min-height: 190px; gap: 16px; }
+    .pie-chart { width: min(150px, 45%); }
     .panel-heading { padding: 16px 14px; }
     .search-bar { flex-wrap: wrap; padding: 12px; }
     .search-bar input { flex: 1 1 100%; width: 100%; }
@@ -249,15 +254,12 @@ td small { display: block; max-width: 235px; margin-top: 4px; overflow: hidden; 
 @media (max-height: 760px) {
     .sidebar-tip { display: none; }
     .sidebar { padding-top: 16px; padding-bottom: 12px; }
-    .sidebar-role { margin-top: 14px; }
     .nav-caption { margin-top: 19px; }
 }
 @media (max-height: 520px) {
     .sidebar { padding-top: 9px; padding-bottom: 8px; }
     .brand--sidebar { min-height: 42px; }
     .brand-mark { width: 36px; height: 36px; }
-    .sidebar-role { min-height: 42px; margin-top: 7px; padding: 4px 8px; }
-    .sidebar-role-icon { width: 28px; height: 28px; }
     .nav-caption { margin: 9px 5px 5px; }
     .side-nav { gap: 3px; }
     .side-nav a { min-height: 35px; }

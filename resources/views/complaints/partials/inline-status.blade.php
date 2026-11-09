@@ -1,4 +1,4 @@
-<form class="inline-status-form" method="POST" action="{{ route('complaints.update-status', $complaint) }}">
+<form class="inline-status-form" method="POST" action="{{ route('admin.complaints.update-status', $complaint) }}">
     @csrf
     @method('PATCH')
     <label class="sr-only" for="status-{{ $complaint->id }}">Ubah status {{ $complaint->title }}</label>

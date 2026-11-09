@@ -28,7 +28,7 @@ class ComplaintController extends Controller
         }
 
         return ComplaintResource::collection(
-            $complaints->orderByDesc('created_at')->orderByDesc('id')->paginate(10)->withQueryString(),
+            $complaints->orderBy('id')->paginate(10)->withQueryString(),
         );
     }
 }
