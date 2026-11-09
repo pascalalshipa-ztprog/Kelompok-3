@@ -50,7 +50,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('users.index')->with('status', 'Data pengguna berhasil diperbarui.');
+        return redirect()->route('admin.users.index')->with('status', 'Data pengguna berhasil diperbarui.');
     }
 
     public function destroy(Request $request, User $user): RedirectResponse
@@ -67,7 +67,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('users.index')->with('status', 'Pengguna berhasil dihapus.');
+        return redirect()->route('admin.users.index')->with('status', 'Pengguna berhasil dihapus.');
     }
 
     private function authorizeAdmin(Request $request): void

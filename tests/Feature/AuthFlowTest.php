@@ -350,6 +350,33 @@ class AuthFlowTest extends TestCase
         $this->get(route('complaints.index'))->assertRedirect(route('login'));
     }
 
+    public function test_role_specific_complaint_routes_are_direct_and_restricted(): void
+    {
+        $student = User::factory()->create();
+        $admin = User::factory()->create(['role' => 'admin']);
+        $complaint = Complaint::factory()->create(['status' => 'Menunggu']);
+
+        $this->actingAs($student)
+            ->get('/user/complaints/create')
+            ->assertOk()
+            ->assertViewIs('complaints.form');
+        $this->get('/complaints/create')->assertOk();
+        $this->get('/admin/complaints')->assertForbidden();
+
+        $this->actingAs($admin)
+            ->get('/admin/complaints')
+            ->assertOk()
+            ->assertViewIs('complaints.index');
+        $this->get('/complaints')->assertOk();
+        $this->get('/user/complaints/create')->assertForbidden();
+        $this->patch('/admin/complaints/'.$complaint->id.'/status', ['status' => 'Diproses'])
+            ->assertRedirect();
+        $this->patch('/complaints/'.$complaint->id.'/status', ['status' => 'Selesai'])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('complaints', ['id' => $complaint->id, 'status' => 'Selesai']);
+    }
+
     public function test_guest_cannot_access_the_complaint_api(): void
     {
         $this->getJson(route('api.complaints.index'))->assertUnauthorized();
@@ -403,6 +430,48 @@ class AuthFlowTest extends TestCase
             ->assertDontSee($otherComplaint->title);
 
         $this->get(route('complaints.show', $otherComplaint))->assertForbidden();
+    }
+
+    public function test_complaint_list_is_ordered_by_ascending_id(): void
+    {
+        $student = User::factory()->create();
+        $category = Category::factory()->create();
+        $complaints = Complaint::factory()
+            ->count(3)
+            ->for($student)
+            ->for($category)
+            ->create();
+
+        $this->actingAs($student)
+            ->get(route('complaints.index'))
+            ->assertOk()
+            ->assertViewHas('complaints', fn ($paginatedComplaints): bool => $paginatedComplaints
+                ->pluck('id')
+                ->all() === $complaints->pluck('id')->all());
+    }
+
+    public function test_student_dashboard_shows_five_latest_complaints_in_ascending_id_order(): void
+    {
+        $student = User::factory()->create();
+        $complaints = Complaint::factory()
+            ->count(7)
+            ->for($student)
+            ->create();
+
+        foreach ($complaints as $index => $complaint) {
+            Complaint::query()
+                ->whereKey($complaint->id)
+                ->update(['created_at' => now()->subDays($index)]);
+        }
+
+        $expectedIds = $complaints->take(5)->pluck('id')->all();
+
+        $this->actingAs($student)
+            ->get(route('dashboard'))
+            ->assertOk()
+            ->assertViewHas('recentComplaints', fn ($recentComplaints): bool => $recentComplaints
+                ->pluck('id')
+                ->all() === $expectedIds);
     }
 
     public function test_student_can_edit_own_pending_complaint_without_changing_status(): void
@@ -461,17 +530,17 @@ class AuthFlowTest extends TestCase
         $firstComplaint = Complaint::factory()->for($firstStudent)->for($category)->create();
         $secondComplaint = Complaint::factory()->for($secondStudent)->for($category)->create();
 
-        $this->actingAs($admin)->get(route('complaints.index'))
+        $this->actingAs($admin)->get(route('admin.complaints.index'))
             ->assertOk()
             ->assertSee($firstComplaint->title)
             ->assertSee($secondComplaint->title);
 
-        $this->put(route('complaints.update', $firstComplaint), [
+        $this->put(route('admin.complaints.update', $firstComplaint), [
             'category_id' => $category->id,
             'title' => $firstComplaint->title,
             'description' => $firstComplaint->description,
             'status' => 'Diproses',
-        ])->assertRedirect(route('complaints.show', $firstComplaint));
+        ])->assertRedirect(route('admin.complaints.show', $firstComplaint));
 
         $this->assertDatabaseHas('complaints', ['id' => $firstComplaint->id, 'status' => 'Diproses']);
     }
@@ -482,9 +551,9 @@ class AuthFlowTest extends TestCase
         $complaint = Complaint::factory()->create(['status' => 'Menunggu']);
 
         $this->actingAs($admin)
-            ->from(route('complaints.index', ['search' => 'Lampu', 'page' => 2]))
-            ->patch(route('complaints.update-status', $complaint), ['status' => 'Diproses'])
-            ->assertRedirect(route('complaints.index', ['search' => 'Lampu', 'page' => 2]))
+            ->from(route('admin.complaints.index', ['search' => 'Lampu', 'page' => 2]))
+            ->patch(route('admin.complaints.update-status', $complaint), ['status' => 'Diproses'])
+            ->assertRedirect(route('admin.complaints.index', ['search' => 'Lampu', 'page' => 2]))
             ->assertSessionHas('status', 'Status pengaduan berhasil diperbarui.');
 
         $this->assertDatabaseHas('complaints', ['id' => $complaint->id, 'status' => 'Diproses']);
@@ -495,11 +564,11 @@ class AuthFlowTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $complaint = Complaint::factory()->create();
 
-        $this->actingAs($admin)->get(route('complaints.index'))
+        $this->actingAs($admin)->get(route('admin.complaints.index'))
             ->assertOk()
             ->assertSee('class="inline-status-form"', false)
             ->assertSee('<th>Perbarui</th>', false)
-            ->assertSee(route('complaints.update-status', $complaint), false);
+            ->assertSee(route('admin.complaints.update-status', $complaint), false);
     }
 
     public function test_student_list_does_not_render_inline_status_controls(): void
@@ -518,7 +587,7 @@ class AuthFlowTest extends TestCase
         $complaint = Complaint::factory()->for($student)->create(['status' => 'Menunggu']);
 
         $this->actingAs($student)
-            ->patch(route('complaints.update-status', $complaint), ['status' => 'Selesai'])
+            ->patch(route('admin.complaints.update-status', $complaint), ['status' => 'Selesai'])
             ->assertForbidden();
 
         $this->assertDatabaseHas('complaints', ['id' => $complaint->id, 'status' => 'Menunggu']);

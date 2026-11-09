@@ -14,11 +14,6 @@
                 <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 19 6v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 <span><strong>SuaraKampus</strong><small>Portal Pengaduan</small></span>
             </a>
-            <div class="sidebar-role">
-                <span class="sidebar-role-icon" aria-hidden="true">{{ auth()->user()->isAdmin() ? 'A' : 'M' }}</span>
-                <span><small>MASUK SEBAGAI</small><strong>{{ auth()->user()->isAdmin() ? 'Administrator' : 'Mahasiswa' }}</strong></span>
-                <span class="sidebar-role-dot" aria-hidden="true"></span>
-            </div>
             <p class="nav-caption">{{ auth()->user()->isAdmin() ? 'ADMINISTRASI' : 'RUANG MAHASISWA' }}</p>
             <nav class="side-nav" aria-label="Navigasi utama">
                 <a class="{{ request()->routeIs('dashboard', 'admin.dashboard') ? 'is-active' : '' }}"
@@ -37,20 +32,16 @@
                         <span class="nav-label">Ubah Kata Sandi</span><span class="nav-chevron" aria-hidden="true">›</span>
                     </a>
                 @endunless
-                <a class="{{ (auth()->user()->isAdmin() ? request()->routeIs('complaints.*') : request()->routeIs('complaints.index', 'complaints.show')) ? 'is-active' : '' }}" @if (auth()->user()->isAdmin() ? request()->routeIs('complaints.*') : request()->routeIs('complaints.index', 'complaints.show')) aria-current="page" @endif href="{{ route('complaints.index') }}">
+                <a class="{{ (auth()->user()->isAdmin() ? request()->routeIs('admin.complaints.*') : request()->routeIs('complaints.index', 'complaints.show')) ? 'is-active' : '' }}" @if (auth()->user()->isAdmin() ? request()->routeIs('admin.complaints.*') : request()->routeIs('complaints.index', 'complaints.show')) aria-current="page" @endif href="{{ route(auth()->user()->isAdmin() ? 'admin.complaints.index' : 'complaints.index') }}">
                     <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5m-10 4h6m-6 4h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <span class="nav-label">{{ auth()->user()->isAdmin() ? 'Semua Pengaduan' : 'Riwayat Pengaduan' }}</span><span class="nav-chevron" aria-hidden="true">›</span>
                 </a>
                 @if (auth()->user()->isAdmin())
-                    <a class="{{ request()->routeIs('users.*') ? 'is-active' : '' }}" @if (request()->routeIs('users.*')) aria-current="page" @endif href="{{ route('users.index') }}">
+                    <a class="{{ request()->routeIs('admin.users.*') ? 'is-active' : '' }}" @if (request()->routeIs('admin.users.*')) aria-current="page" @endif href="{{ route('admin.users.index') }}">
                         <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20m6-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8-6.5a4 4 0 0 1 0 7.5m2 3a3.5 3.5 0 0 1 2 3.2V20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                         <span class="nav-label">Manajemen Pengguna</span><span class="nav-chevron" aria-hidden="true">›</span>
                     </a>
                 @endif
-                <a class="{{ request()->routeIs('profile.*') ? 'is-active' : '' }}" @if (request()->routeIs('profile.*')) aria-current="page" @endif href="{{ route('profile.edit') }}">
-                    <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
-                    <span class="nav-label">Profil Saya</span><span class="nav-chevron" aria-hidden="true">›</span>
-                </a>
             </nav>
             <div class="sidebar-tip">
                 <span class="sidebar-tip-icon" aria-hidden="true">✦</span>
@@ -58,10 +49,10 @@
                 <p>{{ auth()->user()->isAdmin() ? 'Kelola laporan dan pengguna dalam satu tempat.' : 'Aspirasi yang baik membantu kampus terus berkembang.' }}</p>
             </div>
             <div class="sidebar-bottom">
-                <a class="profile-mini profile-link" href="{{ route('profile.edit') }}" aria-label="Buka profil {{ auth()->user()->name }}">
+                <a class="profile-mini profile-link" href="{{ route(auth()->user()->isAdmin() ? 'admin.profile.edit' : 'profile.edit') }}" aria-label="Buka profil {{ auth()->user()->name }}">
                     <span class="profile-avatar">
                         @if (auth()->user()->profile_photo_path)
-                            <img src="{{ route('profile.photo') }}" alt="">
+                            <img src="{{ route(auth()->user()->isAdmin() ? 'admin.profile.photo' : 'profile.photo') }}" alt="">
                         @else
                             {{ strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}
                         @endif

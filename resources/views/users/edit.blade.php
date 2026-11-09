@@ -9,10 +9,10 @@
             <h1>Ubah data pengguna</h1>
             <p>Perbarui informasi akun {{ $user->name }}.</p>
         </div>
-        <a class="text-link" href="{{ route('users.index') }}">← Kembali ke daftar pengguna</a>
+        <a class="text-link" href="{{ route('admin.users.index') }}">← Kembali ke daftar pengguna</a>
     </section>
 
-    <form class="panel user-edit-form" method="POST" action="{{ route('users.update', $user) }}">
+    <form class="panel user-edit-form" method="POST" action="{{ route('admin.users.update', $user) }}">
         @csrf
         @method('PUT')
 

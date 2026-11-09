@@ -32,8 +32,7 @@ class ComplaintController extends Controller
         }
 
         $complaints = $complaints
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
+            ->orderBy('id')
             ->paginate(10)
             ->withQueryString();
 
@@ -101,7 +100,9 @@ class ComplaintController extends Controller
 
         $complaint->update($validated);
 
-        return redirect()->route('complaints.show', $complaint)->with('status', 'Pengaduan berhasil diperbarui.');
+        $routePrefix = $isAdmin ? 'admin.complaints' : 'complaints';
+
+        return redirect()->route($routePrefix.'.show', $complaint)->with('status', 'Pengaduan berhasil diperbarui.');
     }
 
     public function updateStatus(Request $request, Complaint $complaint): RedirectResponse
@@ -117,11 +118,13 @@ class ComplaintController extends Controller
         return back()->with('status', 'Status pengaduan berhasil diperbarui.');
     }
 
-    public function destroy(Complaint $complaint): RedirectResponse
+    public function destroy(Request $request, Complaint $complaint): RedirectResponse
     {
         Gate::authorize('delete', $complaint);
         $complaint->delete();
 
-        return redirect()->route('complaints.index')->with('status', 'Pengaduan berhasil dihapus.');
+        $routeName = $request->user()->isAdmin() ? 'admin.complaints.index' : 'complaints.index';
+
+        return redirect()->route($routeName)->with('status', 'Pengaduan berhasil dihapus.');
     }
 }

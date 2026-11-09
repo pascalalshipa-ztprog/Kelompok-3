@@ -21,7 +21,7 @@ class UsersAdminFeatureTest extends TestCase
         ]);
         User::factory()->create(['name' => 'Another Student']);
 
-        $this->actingAs($admin)->get(route('users.index', ['search' => '25170018']))
+        $this->actingAs($admin)->get(route('admin.users.index', ['search' => '25170018']))
             ->assertOk()
             ->assertViewIs('users.index')
             ->assertSee($student->name)
@@ -32,13 +32,39 @@ class UsersAdminFeatureTest extends TestCase
     public function test_admin_sidebar_shows_administration_role_and_user_management(): void
     {
         $this->actingAs(User::factory()->create(['role' => 'admin']))
-            ->get(route('dashboard'))
+            ->get(route('admin.dashboard'))
             ->assertOk()
             ->assertSee('id="portal-sidebar"', false)
             ->assertSee('ADMINISTRASI')
             ->assertSee('Administrator')
             ->assertSee('Manajemen Pengguna')
+            ->assertDontSee('<span class="nav-label">Profil Saya</span>', false)
             ->assertSee('Pusat kendali kampus');
+    }
+
+    public function test_admin_dashboard_shows_user_and_complaint_pie_chart_totals(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $student = User::factory()->create();
+        User::factory()->create();
+
+        foreach (['Menunggu', 'Diproses', 'Selesai', 'Ditolak'] as $status) {
+            Complaint::factory()->for($student)->create(['status' => $status]);
+        }
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('Total Pengguna')
+            ->assertSee('3 akun')
+            ->assertSee('Total Pengaduan')
+            ->assertSee('4 pengaduan')
+            ->assertDontSee('Pengaduan terbaru')
+            ->assertViewHas('userPieChart', fn (array $chart): bool => $chart['total'] === 3
+                && $chart['slices'][0]['value'] === 2
+                && $chart['slices'][1]['value'] === 1)
+            ->assertViewHas('complaintPieChart', fn (array $chart): bool => $chart['total'] === 4
+                && array_column($chart['slices'], 'value') === [1, 1, 1, 1]);
     }
 
     public function test_student_sidebar_shows_student_menu_without_admin_links(): void
@@ -50,6 +76,7 @@ class UsersAdminFeatureTest extends TestCase
             ->assertSee('Buat Pengaduan')
             ->assertSee('Ubah Kata Sandi')
             ->assertSee('Riwayat Pengaduan')
+            ->assertDontSee('<span class="nav-label">Profil Saya</span>', false)
             ->assertSee('Suaramu berarti')
             ->assertDontSee('Manajemen Pengguna');
     }
@@ -59,14 +86,26 @@ class UsersAdminFeatureTest extends TestCase
         $student = User::factory()->create();
         $otherUser = User::factory()->create();
 
-        $this->actingAs($student)->get(route('users.index'))->assertForbidden();
-        $this->get(route('users.edit', $otherUser))->assertForbidden();
-        $this->put(route('users.update', $otherUser), [
+        $this->actingAs($student)->get(route('admin.users.index'))->assertForbidden();
+        $this->get(route('admin.users.edit', $otherUser))->assertForbidden();
+        $this->put(route('admin.users.update', $otherUser), [
             'name' => 'Changed Name',
             'nim' => $otherUser->nim,
             'email' => $otherUser->email,
         ])->assertForbidden();
-        $this->delete(route('users.destroy', $otherUser))->assertForbidden();
+        $this->delete(route('admin.users.destroy', $otherUser))->assertForbidden();
+    }
+
+    public function test_legacy_users_route_remains_available_to_admins_only(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->get('/users')
+            ->assertForbidden();
+
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->get('/users')
+            ->assertOk()
+            ->assertViewIs('users.index');
     }
 
     public function test_admin_can_update_user_details_without_changing_their_role(): void
@@ -74,12 +113,12 @@ class UsersAdminFeatureTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $student = User::factory()->create();
 
-        $this->actingAs($admin)->put(route('users.update', $student), [
+        $this->actingAs($admin)->put(route('admin.users.update', $student), [
             'name' => 'Updated Student',
             'nim' => '25170019',
             'email' => 'updated@kampus.ac.id',
             'role' => 'admin',
-        ])->assertRedirect(route('users.index'))
+        ])->assertRedirect(route('admin.users.index'))
             ->assertSessionHas('status', 'Data pengguna berhasil diperbarui.');
 
         $this->assertDatabaseHas('users', [
@@ -97,13 +136,13 @@ class UsersAdminFeatureTest extends TestCase
         $student = User::factory()->create();
         $otherUser = User::factory()->create();
 
-        $this->actingAs($admin)->from(route('users.edit', $student))
-            ->put(route('users.update', $student), [
+        $this->actingAs($admin)->from(route('admin.users.edit', $student))
+            ->put(route('admin.users.update', $student), [
                 'name' => $student->name,
                 'nim' => $student->nim,
                 'email' => $otherUser->email,
             ])
-            ->assertRedirect(route('users.edit', $student))
+            ->assertRedirect(route('admin.users.edit', $student))
             ->assertSessionHasErrors('email');
 
         $this->assertDatabaseHas('users', ['id' => $student->id, 'email' => $student->email]);
@@ -115,8 +154,8 @@ class UsersAdminFeatureTest extends TestCase
         $student = User::factory()->create();
         $complaint = Complaint::factory()->for($student)->create();
 
-        $this->actingAs($admin)->delete(route('users.destroy', $student))
-            ->assertRedirect(route('users.index'))
+        $this->actingAs($admin)->delete(route('admin.users.destroy', $student))
+            ->assertRedirect(route('admin.users.index'))
             ->assertSessionHas('status', 'Pengguna berhasil dihapus.');
 
         $this->assertDatabaseMissing('users', ['id' => $student->id]);
@@ -127,9 +166,9 @@ class UsersAdminFeatureTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $this->actingAs($admin)->from(route('users.index'))
-            ->delete(route('users.destroy', $admin))
-            ->assertRedirect(route('users.index'))
+        $this->actingAs($admin)->from(route('admin.users.index'))
+            ->delete(route('admin.users.destroy', $admin))
+            ->assertRedirect(route('admin.users.index'))
             ->assertSessionHasErrors('user');
 
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
@@ -140,8 +179,8 @@ class UsersAdminFeatureTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $anotherAdmin = User::factory()->create(['role' => 'admin']);
 
-        $this->actingAs($admin)->delete(route('users.destroy', $anotherAdmin))
-            ->assertRedirect(route('users.index'));
+        $this->actingAs($admin)->delete(route('admin.users.destroy', $anotherAdmin))
+            ->assertRedirect(route('admin.users.index'));
 
         $this->assertDatabaseMissing('users', ['id' => $anotherAdmin->id]);
     }

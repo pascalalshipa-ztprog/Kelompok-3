@@ -30,7 +30,7 @@ class ComplaintReportFeatureTest extends TestCase
                 'location' => 'Gedung B',
             ]);
 
-        $response = $this->actingAs($admin)->get(route('complaints.export'));
+        $response = $this->actingAs($admin)->get(route('admin.complaints.export'));
 
         $response->assertDownload()
             ->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
@@ -67,7 +67,7 @@ class ComplaintReportFeatureTest extends TestCase
     public function test_student_cannot_download_the_admin_complaint_report(): void
     {
         $this->actingAs(User::factory()->create())
-            ->get(route('complaints.export'))
+            ->get(route('admin.complaints.export'))
             ->assertForbidden();
     }
 }

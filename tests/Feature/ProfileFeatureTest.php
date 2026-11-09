@@ -33,7 +33,7 @@ class ProfileFeatureTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $this->actingAs($admin)->get(route('profile.edit'))
+        $this->actingAs($admin)->get(route('admin.profile.edit'))
             ->assertOk()
             ->assertSee('Administrator')
             ->assertSee($admin->name)
@@ -109,11 +109,11 @@ class ProfileFeatureTest extends TestCase
         Storage::fake('public');
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $this->actingAs($admin)->put(route('profile.update'), [
+        $this->actingAs($admin)->put(route('admin.profile.update'), [
             'name' => 'Updated Campus Admin',
             'email' => $admin->email,
             'profile_photo' => $this->validPngUpload(),
-        ])->assertRedirect(route('profile.edit'));
+        ])->assertRedirect(route('admin.profile.edit'));
 
         $admin->refresh();
         $this->assertSame('Updated Campus Admin', $admin->name);
@@ -126,10 +126,10 @@ class ProfileFeatureTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $originalNim = $admin->nim;
 
-        $this->actingAs($admin)->put(route('profile.update'), [
+        $this->actingAs($admin)->put(route('admin.profile.update'), [
             'name' => $admin->name,
             'email' => $admin->email,
-        ])->assertRedirect(route('profile.edit'));
+        ])->assertRedirect(route('admin.profile.edit'));
 
         $this->assertSame($originalNim, $admin->refresh()->nim);
     }

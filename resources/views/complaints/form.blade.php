@@ -1,12 +1,13 @@
 @extends('layouts.portal')
 
 @php($isEditing = isset($complaint))
+@php($complaintsRoutePrefix = auth()->user()->isAdmin() ? 'admin.complaints' : 'complaints')
 
 @section('title', $isEditing ? 'Edit Pengaduan' : 'Buat Pengaduan')
 
 @section('content')
-    <section class="page-heading"><div><p class="eyebrow">Sampaikan aspirasi</p><h1>{{ $isEditing ? 'Edit pengaduan' : 'Buat pengaduan baru' }}</h1><p>Jelaskan kendala yang kamu alami agar dapat ditindaklanjuti.</p></div><a class="text-link" href="{{ $isEditing ? route('complaints.show', $complaint) : route('complaints.index') }}">← Kembali</a></section>
-    <form class="panel complaint-form" method="POST" action="{{ $isEditing ? route('complaints.update', $complaint) : route('complaints.store') }}">
+    <section class="page-heading"><div><p class="eyebrow">Sampaikan aspirasi</p><h1>{{ $isEditing ? 'Edit pengaduan' : 'Buat pengaduan baru' }}</h1><p>Jelaskan kendala yang kamu alami agar dapat ditindaklanjuti.</p></div><a class="text-link" href="{{ $isEditing ? route($complaintsRoutePrefix.'.show', $complaint) : route('complaints.index') }}">← Kembali</a></section>
+    <form class="panel complaint-form" method="POST" action="{{ $isEditing ? route($complaintsRoutePrefix.'.update', $complaint) : route('complaints.store') }}">
         @csrf
         @if ($isEditing)@method('PUT')@endif
         <label class="field"><span>Kategori</span><select name="category_id" required><option value="">Pilih kategori</option>@foreach ($categories as $category)<option value="{{ $category->id }}" @selected((string) old('category_id', $complaint->category_id ?? '') === (string) $category->id)>{{ $category->name }}</option>@endforeach</select></label>

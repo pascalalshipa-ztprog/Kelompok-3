@@ -51,7 +51,7 @@ class TestApiTest extends TestCase
                 'meta',
             ])
             ->assertJsonPath('data.0.id', $ownComplaint->id)
-            ->assertJsonPath('data.0.ticket_number', 'SK-' . str_pad((string) $ownComplaint->id, 6, '0', STR_PAD_LEFT))
+            ->assertJsonPath('data.0.ticket_number', 'SK-'.str_pad((string) $ownComplaint->id, 6, '0', STR_PAD_LEFT))
             ->assertJsonPath('data.0.category', $category->name)
             ->assertJsonPath('data.0.reporter', $student->name)
             ->assertJsonMissing(['title' => $otherComplaint->title]);
@@ -82,6 +82,26 @@ class TestApiTest extends TestCase
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.id', $cleanlinessComplaint->id)
             ->assertJsonMissing(['title' => $facilityComplaint->title]);
+    }
+
+    public function test_complaint_api_orders_records_by_ascending_id(): void
+    {
+        $student = User::factory()->create();
+        $complaints = Complaint::factory()
+            ->count(3)
+            ->for($student)
+            ->create();
+
+        foreach ($complaints as $index => $complaint) {
+            Complaint::query()
+                ->whereKey($complaint->id)
+                ->update(['created_at' => now()->subDays(2 - $index)]);
+        }
+
+        $this->actingAs($student)
+            ->getJson(route('api.complaints.index'))
+            ->assertOk()
+            ->assertJsonPath('data.*.id', $complaints->pluck('id')->all());
     }
 
     public function test_complaint_api_returns_ten_items_per_page(): void

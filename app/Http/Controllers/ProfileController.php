@@ -96,6 +96,8 @@ class ProfileController extends Controller
             ]);
         }
 
-        return redirect()->route('profile.edit')->with('status', 'Profil berhasil diperbarui.');
+        $routeName = $user->isAdmin() ? 'admin.profile.edit' : 'profile.edit';
+
+        return redirect()->route($routeName)->with('status', 'Profil berhasil diperbarui.');
     }
 }
