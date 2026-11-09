@@ -537,16 +537,49 @@ class AuthFlowTest extends TestCase
             ->assertDontSee($other->title);
     }
 
-    public function test_complaint_api_returns_only_the_students_own_records(): void
+    public function test_complaint_api_returns_only_the_demo_students_own_records(): void
     {
-        $student = User::factory()->create();
+        $student = User::factory()->create([
+            'name' => 'Cantika Dwi Utari',
+            'nim' => '25170023',
+            'email' => 'cantika@kampus.ac.id',
+            'role' => 'student',
+        ]);
         $ownComplaint = Complaint::factory()->for($student)->create(['title' => 'Private student complaint']);
-        Complaint::factory()->create(['title' => 'Another student complaint']);
+        $otherComplaint = Complaint::factory()->create(['title' => 'Another student complaint']);
 
         $this->actingAs($student)->getJson(route('api.complaints.index'))
             ->assertOk()
             ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.title', $ownComplaint->title);
+            ->assertJsonPath('data.0.title', $ownComplaint->title)
+            ->assertJsonMissing(['title' => $otherComplaint->title]);
+    }
+
+    public function test_complaint_api_returns_all_records_to_the_demo_admin(): void
+    {
+        $admin = User::factory()->create([
+            'name' => 'Admin Kampus',
+            'email' => 'admin@kampus.ac.id',
+            'role' => 'admin',
+        ]);
+        $demoStudent = User::factory()->create([
+            'name' => 'Cantika Dwi Utari',
+            'nim' => '25170023',
+            'email' => 'cantika@kampus.ac.id',
+            'role' => 'student',
+        ]);
+        $demoComplaint = Complaint::factory()->for($demoStudent)->create([
+            'title' => 'Demo student complaint',
+        ]);
+        $otherComplaint = Complaint::factory()->create([
+            'title' => 'Another incoming complaint',
+        ]);
+
+        $this->actingAs($admin)->getJson(route('api.complaints.index'))
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['title' => $demoComplaint->title])
+            ->assertJsonFragment(['title' => $otherComplaint->title]);
     }
 
     public function test_complaint_list_is_paginated(): void

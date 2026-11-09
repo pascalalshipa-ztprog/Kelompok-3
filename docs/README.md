@@ -78,10 +78,10 @@ Route web aplikasi didefinisikan di `routes/web.php`. Route autentikasi tertentu
 | `PATCH /complaints/{complaint}/status` | `complaints.update-status` | Mengubah status pengaduan khusus admin. |
 | `GET /complaints/export` | `complaints.export` | Mengunduh rekap pengaduan CSV khusus admin. |
 | `GET /users` dan `/users/{user}...` | `users.*` | Daftar, ubah, dan hapus akun khusus admin. |
-| `GET /api/complaints` | `api.complaints.index` | Daftar pengaduan dalam JSON untuk user yang login. |
+| `GET /api/complaints` | `api.complaints.index` | Satu endpoint JSON pengaduan: mahasiswa melihat laporan sendiri, admin melihat seluruh laporan. |
 | `POST /logout` | `logout` | Mengakhiri sesi login. |
 
-Route API saat ini berada di `routes/web.php`, bukan file route API terpisah. Karena berada di grup `auth`, endpoint `/api/complaints` memerlukan sesi autentikasi Laravel. Format JSON ditangani `ComplaintResource` dan pagination Laravel. Parameter `search` mendukung pencarian, sedangkan `page` digunakan untuk navigasi halaman.
+Route API saat ini berada di `routes/web.php`, bukan file route API terpisah. Endpoint tunggal `GET /api/complaints` berada di grup `auth`, sehingga memerlukan sesi login Laravel dan tidak menyediakan akses anonim. Dengan akun demo mahasiswa (`25170023` / `cantika@kampus.ac.id`), endpoint hanya mengembalikan pengaduan milik akun tersebut. Dengan akun demo admin (`admin@kampus.ac.id`), endpoint mengembalikan pengaduan dari semua pengguna. Format JSON ditangani `ComplaintResource` dan pagination Laravel. Parameter `search` mendukung pencarian, sedangkan `page` digunakan untuk navigasi halaman.
 
 ## Controller
 
