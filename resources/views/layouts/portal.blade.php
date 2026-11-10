@@ -70,7 +70,7 @@
         <div class="portal-main">
             <header class="topbar">
                 <span class="topbar-section">Portal Pengaduan <span>/</span> @yield('title')</span>
-                <span class="topbar-date">{{ now()->translatedFormat('l, d M Y') }}</span>
+                <span class="topbar-date">{{ now()->timezone('Asia/Jakarta')->translatedFormat('l, d M Y') }}</span>
             </header>
             <main class="content">
                 @if (session('status'))
