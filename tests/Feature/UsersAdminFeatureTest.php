@@ -14,6 +14,10 @@ class UsersAdminFeatureTest extends TestCase
     public function test_admin_can_view_and_search_users(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
+        User::factory()->create([
+            'name' => 'Another Administrator',
+            'role' => 'admin',
+        ]);
         $student = User::factory()->create([
             'name' => 'Cantika Mahasiswa',
             'nim' => '25170018',
@@ -26,7 +30,47 @@ class UsersAdminFeatureTest extends TestCase
             ->assertViewIs('users.index')
             ->assertSee($student->name)
             ->assertSee($student->email)
+            ->assertDontSee('Another Administrator')
             ->assertDontSee('Another Student');
+    }
+
+    public function test_admin_accounts_are_excluded_from_user_management_actions(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $anotherAdmin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index'))
+            ->assertOk()
+            ->assertViewHas('users', fn ($users): bool => $users->getCollection()
+                ->every(fn (User $user): bool => ! $user->isAdmin()));
+
+        $this->get(route('admin.users.edit', $anotherAdmin))->assertNotFound();
+        $this->put(route('admin.users.update', $anotherAdmin), [
+            'name' => 'Changed Admin',
+            'nim' => $anotherAdmin->nim,
+            'email' => $anotherAdmin->email,
+        ])->assertNotFound();
+        $this->delete(route('admin.users.destroy', $anotherAdmin))->assertNotFound();
+
+        $this->assertDatabaseHas('users', [
+            'id' => $anotherAdmin->id,
+            'role' => 'admin',
+        ]);
+    }
+
+    public function test_admin_user_directory_orders_students_by_nim_ascending(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $higherNimStudent = User::factory()->create(['nim' => '25170024']);
+        $lowerNimStudent = User::factory()->create(['nim' => '25170023']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index'))
+            ->assertOk()
+            ->assertViewHas('users', fn ($users): bool => $users->getCollection()
+                ->pluck('nim')
+                ->all() === [$lowerNimStudent->nim, $higherNimStudent->nim]);
     }
 
     public function test_admin_sidebar_shows_administration_role_and_user_management(): void
@@ -74,8 +118,8 @@ class UsersAdminFeatureTest extends TestCase
             ->assertOk()
             ->assertSee('RUANG MAHASISWA')
             ->assertSee('Buat Pengaduan')
-            ->assertSee('Ubah Kata Sandi')
             ->assertSee('Riwayat Pengaduan')
+            ->assertDontSee('Ubah Kata Sandi')
             ->assertDontSee('<span class="nav-label">Profil Saya</span>', false)
             ->assertSee('Suaramu berarti')
             ->assertDontSee('Manajemen Pengguna');
@@ -116,7 +160,7 @@ class UsersAdminFeatureTest extends TestCase
         $this->actingAs($admin)->put(route('admin.users.update', $student), [
             'name' => 'Updated Student',
             'nim' => '25170019',
-            'email' => 'updated@kampus.ac.id',
+            'email' => $student->email,
             'role' => 'admin',
         ])->assertRedirect(route('admin.users.index'))
             ->assertSessionHas('status', 'Data pengguna berhasil diperbarui.');
@@ -125,12 +169,12 @@ class UsersAdminFeatureTest extends TestCase
             'id' => $student->id,
             'name' => 'Updated Student',
             'nim' => '25170019',
-            'email' => 'updated@kampus.ac.id',
+            'email' => $student->email,
             'role' => 'student',
         ]);
     }
 
-    public function test_admin_cannot_update_a_user_with_an_existing_email(): void
+    public function test_admin_cannot_change_a_student_email(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $student = User::factory()->create();
@@ -168,20 +212,19 @@ class UsersAdminFeatureTest extends TestCase
 
         $this->actingAs($admin)->from(route('admin.users.index'))
             ->delete(route('admin.users.destroy', $admin))
-            ->assertRedirect(route('admin.users.index'))
-            ->assertSessionHasErrors('user');
+            ->assertNotFound();
 
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
     }
 
-    public function test_admin_can_delete_another_admin_when_an_admin_remains(): void
+    public function test_admin_cannot_delete_another_admin(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $anotherAdmin = User::factory()->create(['role' => 'admin']);
 
         $this->actingAs($admin)->delete(route('admin.users.destroy', $anotherAdmin))
-            ->assertRedirect(route('admin.users.index'));
+            ->assertNotFound();
 
-        $this->assertDatabaseMissing('users', ['id' => $anotherAdmin->id]);
+        $this->assertDatabaseHas('users', ['id' => $anotherAdmin->id]);
     }
 }

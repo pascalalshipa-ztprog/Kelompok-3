@@ -16,6 +16,7 @@ class UserController extends Controller
 
         $search = trim($request->string('search')->toString());
         $users = User::query()
+            ->where('role', 'student')
             ->when($search !== '', function ($query) use ($search): void {
                 $query->where(function ($userQuery) use ($search): void {
                     $userQuery->where('name', 'like', '%'.$search.'%')
@@ -23,8 +24,8 @@ class UserController extends Controller
                         ->orWhere('email', 'like', '%'.$search.'%');
                 });
             })
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
+            ->orderBy('nim')
+            ->orderBy('id')
             ->paginate(15)
             ->withQueryString();
 
@@ -34,6 +35,7 @@ class UserController extends Controller
     public function edit(Request $request, User $user): View
     {
         $this->authorizeAdmin($request);
+        abort_if($user->isAdmin(), 404);
 
         return view('users.edit', compact('user'));
     }
@@ -41,11 +43,14 @@ class UserController extends Controller
     public function update(Request $request, User $user): RedirectResponse
     {
         $this->authorizeAdmin($request);
+        abort_if($user->isAdmin(), 404);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'nim' => ['nullable', 'string', 'max:32', 'regex:/^[A-Za-z0-9.-]+$/', Rule::unique('users', 'nim')->ignore($user)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::in([$user->email])],
+        ], [
+            'email.in' => 'Alamat email tidak dapat diubah.',
         ]);
 
         $user->update($validated);
@@ -56,13 +61,10 @@ class UserController extends Controller
     public function destroy(Request $request, User $user): RedirectResponse
     {
         $this->authorizeAdmin($request);
+        abort_if($user->isAdmin(), 404);
 
         if ($request->user()->is($user)) {
             return back()->withErrors(['user' => 'Akun yang sedang digunakan tidak dapat dihapus.']);
-        }
-
-        if ($user->isAdmin() && User::query()->where('role', 'admin')->count() <= 1) {
-            return back()->withErrors(['user' => 'Admin terakhir tidak dapat dihapus.']);
         }
 
         $user->delete();

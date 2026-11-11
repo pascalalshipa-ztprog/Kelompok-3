@@ -45,11 +45,9 @@ class PasswordController extends Controller
         ]);
     }
 
-    public function editStudentPassword(Request $request): View
+    public function editStudentPassword(Request $request): RedirectResponse
     {
-        abort_unless(! $request->user()->isAdmin(), 403);
-
-        return view('dashboard.password');
+        return redirect()->route($request->user()->isAdmin() ? 'admin.profile.edit' : 'profile.edit');
     }
 
     public function resetPassword(Request $request): RedirectResponse
@@ -83,8 +81,6 @@ class PasswordController extends Controller
 
     public function updateStudentPassword(Request $request): RedirectResponse
     {
-        abort_unless(! $request->user()->isAdmin(), 403);
-
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
             'password' => ['required', 'string', 'min:8', 'confirmed', 'different:current_password'],
@@ -94,7 +90,9 @@ class PasswordController extends Controller
             'password' => $validated['password'],
         ]);
 
-        return redirect()->route('dashboard.password.edit')->with(
+        $profileRoute = $request->user()->isAdmin() ? 'admin.profile.edit' : 'profile.edit';
+
+        return redirect()->route($profileRoute)->with(
             'status',
             'Kata sandi berhasil diperbarui.',
         );

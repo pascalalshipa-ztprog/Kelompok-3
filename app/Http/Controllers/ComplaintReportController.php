@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ComplaintReportController extends Controller
 {
+    private const STATUSES = ['Menunggu', 'Diproses', 'Selesai', 'Ditolak'];
+
     public function export(Request $request): StreamedResponse
     {
         abort_unless($request->user()?->isAdmin(), 403);
@@ -57,6 +61,35 @@ class ComplaintReportController extends Controller
         }, 'laporan-pengaduan-'.now()->format('Ymd-His').'.csv', [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
+    }
+
+    public function exportPdf(Request $request): Response
+    {
+        abort_unless($request->user()?->isAdmin(), 403);
+
+        $statusCounts = array_fill_keys(self::STATUSES, 0);
+        $groupedStatusCounts = Complaint::query()
+            ->selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        foreach (self::STATUSES as $status) {
+            $statusCounts[$status] = (int) $groupedStatusCounts->get($status, 0);
+        }
+
+        $complaints = Complaint::query()
+            ->with(['user:id,name,nim', 'category:id,name'])
+            ->orderBy('complaints.id')
+            ->get();
+
+        return Pdf::loadView('reports.complaints-pdf', [
+            'complaints' => $complaints,
+            'statusCounts' => $statusCounts,
+            'totalCount' => array_sum($statusCounts),
+            'generatedAt' => now(),
+        ])
+            ->setPaper('a4', 'portrait')
+            ->download('laporan-pengaduan-'.now()->format('Ymd-His').'.pdf');
     }
 
     private function spreadsheetSafeCell(?string $value): string

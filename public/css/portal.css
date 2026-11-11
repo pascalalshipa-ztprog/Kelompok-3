@@ -175,6 +175,9 @@ td small { display: block; max-width: 235px; margin-top: 4px; overflow: hidden; 
 .profile-field-error { margin: -13px 0 0; color: #983d35; font-size: 11px; }
 .profile-form-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
 .profile-form-fields .field:last-child { grid-column: 1 / -1; }
+.profile-readonly-field { min-width: 0; display: grid; align-content: start; gap: 8px; color: #35483e; font-size: 13px; }
+.profile-readonly-field span { font-weight: 700; }
+.profile-readonly-field strong { min-height: 48px; display: flex; align-items: center; padding: 0 13px; overflow-wrap: anywhere; color: #1d3028; background: #f7f9f7; border: 1px solid #e5ebe6; border-radius: 7px; font-size: 12px; font-weight: 600; }
 .profile-form-actions { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-top: 17px; border-top: 1px solid #edf1ed; }
 .profile-form-actions p { margin: 0; color: #87938c; font-size: 11px; }
 .profile-form-actions .primary-button { min-height: 42px; font-size: 12px; }
@@ -186,6 +189,10 @@ td small { display: block; max-width: 235px; margin-top: 4px; overflow: hidden; 
 .profile-details dd { margin: 0; color: #34483e; font-size: 12px; font-weight: 600; }
 .profile-password-link { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 20px; padding-top: 14px; color: #19775f; border-top: 1px solid #edf1ed; font-size: 11px; font-weight: 800; text-decoration: none; }
 .profile-password-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.profile-sidebar { display: grid; gap: 18px; }
+.profile-sidebar .password-panel { margin-top: 0; }
+.profile-sidebar .panel-heading { padding: 17px; }
+.profile-sidebar .complaint-form { gap: 15px; padding: 17px; }
 .notice { margin: 0 0 18px; padding: 11px 13px; color: #245c40; background: #edf7ef; border: 1px solid #d6ebda; border-radius: 7px; font-size: 13px; line-height: 1.5; }
 .notice--error { color: #983d35; background: #fff1ef; border-color: #f1d8d3; }
 @media (max-width: 1000px) {

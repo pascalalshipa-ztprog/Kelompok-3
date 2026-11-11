@@ -70,30 +70,36 @@ Route web aplikasi didefinisikan di `routes/web.php`. Route autentikasi tertentu
 | `POST /forgot-password` | `password.email` | Mengirim tautan reset; dibatasi 5 request per menit. |
 | `GET /reset-password/{token}` | `password.reset` | Form reset kata sandi. |
 | `POST /reset-password` | `password.update` | Memproses reset kata sandi; dibatasi 5 request per menit. |
-| `GET /dashboard` | `dashboard` | Ringkasan dan pengaduan terbaru sesuai peran. |
-| `GET /profile`, `PUT /profile` | `profile.edit`, `profile.update` | Melihat dan memperbarui profil. |
-| `GET /profile/photo` | `profile.photo` | Mengirim foto profil milik user yang login. |
-| `GET /dashboard/password`, `PUT /dashboard/password` | `dashboard.password.edit`, `dashboard.password.update` | Halaman dan proses ganti kata sandi mahasiswa. |
-| Resource `/complaints` | `complaints.*` | Daftar, buat, lihat, ubah, dan hapus pengaduan. |
-| `PATCH /complaints/{complaint}/status` | `complaints.update-status` | Mengubah status pengaduan khusus admin. |
-| `GET /complaints/export` | `complaints.export` | Mengunduh rekap pengaduan CSV khusus admin. |
-| `GET /users` dan `/users/{user}...` | `users.*` | Daftar, ubah, dan hapus akun khusus admin. |
+| `GET /user`, `GET /admin` | `dashboard`, `admin.dashboard` | Ringkasan sesuai peran. |
+| `GET /user/profile`, `PUT /user/profile` | `profile.edit`, `profile.update` | Profil mahasiswa; nama, NIM, dan email hanya-baca, foto dapat diganti (maks. 500 KB). |
+| `GET /admin/profile`, `PUT /admin/profile` | `admin.profile.edit`, `admin.profile.update` | Profil admin; identitas hanya-baca dan foto dapat diganti (maks. 500 KB). |
+| `GET /user/profile/photo`, `GET /admin/profile/photo` | `profile.photo`, `admin.profile.photo` | Mengirim foto profil untuk pengguna yang sedang login. |
+| `PUT /profile/password` | `profile.password.update` | Mengubah kata sandi dari halaman profil untuk kedua peran. |
+| `GET /user/dashboard/password` | `dashboard.password.edit` | Alias kompatibilitas yang mengarahkan ke halaman profil. |
+| Resource `/user/complaints` | `complaints.*` | CRUD pengaduan mahasiswa; hanya laporan sendiri yang dapat diakses dan laporan berstatus `Menunggu` yang dapat diubah/dihapus. |
+| Resource `/admin/complaints` | `admin.complaints.*` | Admin dapat melihat/menghapus laporan; pembuatan dan pengeditan isi tidak diizinkan. |
+| `PATCH /admin/complaints/{complaint}/status` | `admin.complaints.update-status` | Mengubah status laporan khusus admin; admin tidak dapat mengedit isi laporan. |
+| `GET /admin/complaints/export` | `admin.complaints.export` | Mengunduh rekap pengaduan CSV khusus admin. |
+| `GET /admin/complaints/export/pdf` | `admin.complaints.export-pdf` | Mengunduh laporan PDF dengan penjelasan, grafik, diagram, dan tabel. |
+| `/admin/users` dan `/admin/users/{user}...` | `admin.users.*` | Daftar dan pengelolaan akun mahasiswa; akun admin dikecualikan. |
 | `GET /api/complaints` | `api.complaints.index` | Satu endpoint JSON pengaduan: mahasiswa melihat laporan sendiri, admin melihat seluruh laporan. |
 | `POST /logout` | `logout` | Mengakhiri sesi login. |
 
-Route API saat ini berada di `routes/web.php`, bukan file route API terpisah. Endpoint tunggal `GET /api/complaints` berada di grup `auth`, sehingga memerlukan sesi login Laravel dan tidak menyediakan akses anonim. Dengan akun demo mahasiswa (`25170023` / `cantika@kampus.ac.id`), endpoint hanya mengembalikan pengaduan milik akun tersebut. Dengan akun demo admin (`admin@kampus.ac.id`), endpoint mengembalikan pengaduan dari semua pengguna. Format JSON ditangani `ComplaintResource` dan pagination Laravel. Parameter `search` mendukung pencarian, sedangkan `page` digunakan untuk navigasi halaman.
+Route API saat ini berada di `routes/web.php`, bukan file route API terpisah. Endpoint tunggal `GET /api/complaints` berada di grup `auth`, sehingga memerlukan sesi login Laravel dan tidak menyediakan akses anonim. Dengan akun demo mahasiswa (`25170023` / `cantika@kampus.ac.id`), endpoint hanya mengembalikan pengaduan milik akun tersebut. Dengan akun demo admin (`admin@kampus.ac.id`), endpoint mengembalikan pengaduan dari semua pengguna. Format JSON ditangani `ComplaintResource` dan pagination Laravel. Parameter `search` mendukung pencarian judul, deskripsi, kategori, dan nama pelapor, sedangkan `page` digunakan untuk navigasi halaman.
+
+Beberapa endpoint lama tetap tersedia sebagai alias kompatibilitas di `/complaints` dan `/users`; operasi tetap menjalankan pemeriksaan hak akses controller/policy.
 
 ## Controller
 
 | Controller | Tanggung jawab |
 |---|---|
 | `AuthController` | Registrasi, autentikasi NIM/email, pembatasan percobaan login, regenerasi sesi, dan logout. |
-| `PasswordController` | Permintaan/reset kata sandi melalui broker Laravel serta ganti kata sandi mahasiswa yang sudah login. |
+| `PasswordController` | Permintaan/reset kata sandi melalui broker Laravel serta ganti kata sandi akun yang sudah login. |
 | `DashboardController` | Menghitung ringkasan status dan mengambil lima pengaduan terbaru. Data mahasiswa dibatasi ke laporan miliknya. |
 | `ComplaintController` | CRUD pengaduan, pencarian, pagination, validasi input, dan pemeriksaan otorisasi. |
-| `ComplaintReportController` | Ekspor CSV untuk admin, menggunakan pemrosesan bertahap dan mengamankan nilai sel spreadsheet. |
-| `ProfileController` | Menampilkan/memperbarui profil, menyimpan foto, dan mengirim foto secara privat untuk pemilik akun. |
-| `UserController` | Pencarian, pembaruan, dan penghapusan akun oleh admin; mencegah penghapusan akun sendiri atau admin terakhir. |
+| `ComplaintReportController` | Ekspor CSV bertahap dan PDF untuk admin; nilai CSV diamankan dari formula spreadsheet. |
+| `ProfileController` | Menampilkan profil, hanya memperbarui foto maksimal 500 KB, dan mengirim foto untuk pengguna yang login. |
+| `UserController` | Pencarian, pembaruan, dan penghapusan akun mahasiswa; daftar diurutkan berdasarkan NIM dan akun admin dikecualikan. |
 | `Api/ComplaintController` | Menghasilkan daftar pengaduan JSON dengan pencarian, pagination, dan pembatasan data berdasarkan peran. |
 
 Controller umumnya menampilkan view dari `resources/views/` atau mengembalikan respons HTTP secara langsung. Respons API menggunakan class di `app/Http/Resources/`.
@@ -139,10 +145,10 @@ Perintah di atas mengubah database yang dikonfigurasi untuk aplikasi. Pastikan k
 - Route yang memerlukan login berada di grup middleware `auth`. Route login/registrasi berada di grup `guest`.
 - Login menerima identitas NIM atau email. Percobaan gagal dibatasi per identitas dan alamat IP.
 - Setelah login, sesi diregenerasi; saat logout, sesi dibatalkan dan token CSRF diregenerasi.
-- `ComplaintPolicy` mengatur akses pengaduan: mahasiswa hanya dapat melihat milik sendiri dan hanya dapat mengubah/menghapus pengaduan sendiri yang masih berstatus `Menunggu`; admin dapat melihat dan mengelola semua pengaduan.
+- `ComplaintPolicy` mengatur akses pengaduan: mahasiswa hanya dapat melihat milik sendiri dan hanya dapat mengubah/menghapus pengaduan sendiri yang masih berstatus `Menunggu`; admin dapat melihat dan menghapus laporan serta mengubah statusnya, tetapi tidak dapat mengedit isi laporan.
 - Pembuatan pengaduan hanya diizinkan untuk mahasiswa. Perubahan status, ekspor laporan, dan pengelolaan akun dibatasi sebagai operasi admin oleh pemeriksaan pada controller.
 - Daftar pengaduan web, dashboard, dan API secara terpisah membatasi query mahasiswa ke data miliknya.
-- Foto profil disimpan di disk `public` Laravel, tetapi endpoint pembacaan foto memeriksa sesi pemilik akun; foto tidak dibaca melalui URL publik langsung dalam alur ini.
+- Foto profil disimpan di disk `public` Laravel, tetapi endpoint pembacaan foto memeriksa autentikasi pengguna; foto tidak dibaca melalui URL publik langsung dalam alur ini. Form profil hanya mengubah foto; identitas akun tidak dapat diubah di sana.
 
 Untuk aturan rinci, lihat `app/Policies/ComplaintPolicy.php` dan pemeriksaan peran di controller.
 

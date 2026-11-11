@@ -14,7 +14,7 @@
 # Sistem Pengaduan Mahasiswa
 
 Aplikasi web untuk mahasiswa mengirim dan memantau pengaduan kampus, serta untuk
-admin mengelola laporan dan akun pengguna.
+admin mengelola tindak lanjut pengaduan dan akun mahasiswa.
 
 ## Teknologi
 
@@ -87,20 +87,26 @@ produksi.
 - Membuat pengaduan dengan kategori, judul, deskripsi, dan lokasi opsional.
 - Melihat, mencari, dan memantau pengaduan milik sendiri.
 - Mengubah atau menghapus pengaduan sendiri selama statusnya `Menunggu`.
-- Mengubah email dan foto profil, serta mengganti kata sandi.
-- Nama dan NIM tidak dapat diubah dari halaman profil.
+- Mengganti foto profil (maksimal 500 KB) dan kata sandi dari halaman profil.
+- Nama, NIM, dan email tidak dapat diubah dari halaman profil.
 
 ### Admin
 
 - Melihat dan mencari seluruh pengaduan.
 - Mengubah status pengaduan menjadi `Menunggu`, `Diproses`, `Selesai`, atau
-  `Ditolak`.
-- Mengelola akun pengguna.
-- Mengunduh rekap pengaduan dalam format CSV.
+  `Ditolak`; isi laporan mahasiswa tidak dapat diedit oleh admin.
+- Mengelola akun mahasiswa; akun admin tidak ditampilkan dan tidak dapat
+  dikelola melalui manajemen pengguna.
+- Mengunduh rekap pengaduan dalam format CSV atau laporan PDF yang memuat
+  penjelasan, grafik status, diagram alur, dan tabel laporan.
+
+Daftar mahasiswa diurutkan berdasarkan NIM secara ascending. Foto baru langsung
+disimpan saat formulir profil dikirim.
 
 Endpoint JSON `GET /api/complaints` juga tersedia bagi pengguna yang sudah
 masuk. Data mahasiswa dibatasi pada pengaduan miliknya, sedangkan admin dapat
-melihat semua pengaduan.
+melihat semua pengaduan. Pencarian mendukung judul, deskripsi, kategori, dan
+nama pelapor.
 
 ### Autentikasi dan Session
 
@@ -109,6 +115,20 @@ ke dashboard admin (`/admin`). Jika URL dashboard role lain tersimpan sebagai
 tujuan redirect di session, tujuan tersebut diabaikan dan pengguna diarahkan ke
 dashboard sesuai rolenya. Redirect ke halaman lain yang diminta sebelum login
 tetap dipertahankan.
+
+## Audit Backend
+
+Pemeriksaan lokal terakhir tidak menemukan fatal error yang dapat direproduksi:
+86 tes lulus dengan 445 assertions, sintaks 37 file PHP valid, `route:list`
+berhasil, seluruh 8 migrasi tercatat sudah berjalan pada database SQLite aktif,
+dan `composer validate --no-check-publish` berhasil. Pemeriksaan migrasi ini
+hanya mencakup database yang sedang dikonfigurasi; koneksi MySQL produksi tidak
+diuji.
+
+Catatan kapasitas: ekspor CSV membaca data secara bertahap, tetapi ekspor PDF
+saat ini memuat seluruh pengaduan sekaligus ke memori untuk dirender. Jika jumlah
+laporan bertambah besar, unduhan PDF dapat menjadi lambat atau membutuhkan
+memori lebih besar. Ini bukan kegagalan yang muncul pada tes saat ini.
 
 ## Pengujian
 
@@ -131,4 +151,3 @@ php artisan test
   sesuai role.
 - `docs/README.md` — penjelasan detail struktur dan alur backend.
 - `docs/ERD.md` — ERD, kamus data, dan matriks hak akses.
-

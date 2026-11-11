@@ -13,7 +13,10 @@
                 <p>{{ auth()->user()->isAdmin() ? 'Cari dan tinjau laporan berdasarkan judul, isi, kategori, atau pelapor.' : 'Cari dan tinjau laporan berdasarkan judul, isi, atau kategori.' }}</p>
             </div>
             @if (auth()->user()->isAdmin())
-                <a class="primary-button primary-button--link" href="{{ route('admin.complaints.export') }}">Unduh laporan CSV</a>
+                <div class="row-actions">
+                    <a class="primary-button primary-button--link" href="{{ route('admin.complaints.export-pdf') }}">Unduh laporan PDF</a>
+                    <a class="text-link" href="{{ route('admin.complaints.export') }}">Unduh CSV</a>
+                </div>
             @else
                 <a class="primary-button primary-button--link" href="{{ route('complaints.create') }}"><span aria-hidden="true">＋</span> Buat Pengaduan</a>
             @endif
@@ -94,9 +97,6 @@
                                     @endif
                                     <td class="row-actions">
                                         <a class="text-link" href="{{ route($complaintsRoutePrefix.'.show', $complaint) }}">Detail</a>
-                                        @can('update', $complaint)
-                                            <a class="text-link" href="{{ route($complaintsRoutePrefix.'.edit', $complaint) }}">Edit</a>
-                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

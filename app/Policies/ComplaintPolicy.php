@@ -36,8 +36,7 @@ class ComplaintPolicy
      */
     public function update(User $user, Complaint $complaint): bool
     {
-        return $user->isAdmin()
-            || ($complaint->user_id === $user->id && $complaint->status === 'Menunggu');
+        return $complaint->user_id === $user->id && $complaint->status === 'Menunggu';
     }
 
     /**

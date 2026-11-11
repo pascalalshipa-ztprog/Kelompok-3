@@ -87,12 +87,14 @@ class AuthController extends Controller
 
         $isAdmin = $request->user()->isAdmin();
         $dashboardRoute = $isAdmin ? 'admin.dashboard' : 'dashboard';
-        $otherDashboardRoute = $isAdmin ? 'dashboard' : 'admin.dashboard';
         $intendedUrl = $request->session()->get('url.intended');
         $intendedPath = is_string($intendedUrl) ? parse_url($intendedUrl, PHP_URL_PATH) : null;
-        $otherDashboardPath = parse_url(route($otherDashboardRoute), PHP_URL_PATH);
+        $restrictedAreaRoute = $isAdmin ? 'dashboard' : 'admin.dashboard';
+        $restrictedAreaPath = parse_url(route($restrictedAreaRoute), PHP_URL_PATH);
 
-        if ($intendedPath === $otherDashboardPath) {
+        if (is_string($intendedPath)
+            && is_string($restrictedAreaPath)
+            && ($intendedPath === $restrictedAreaPath || str_starts_with($intendedPath, $restrictedAreaPath.'/'))) {
             $request->session()->forget('url.intended');
         }
 

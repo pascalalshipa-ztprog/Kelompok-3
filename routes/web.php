@@ -25,6 +25,9 @@ Route::middleware('guest')->group(function () {
 use App\Http\Controllers\Api\ComplaintController as ApiComplaintController;
 
 Route::middleware('auth')->group(function () {
+    Route::put('/profile/password', [PasswordController::class, 'updateStudentPassword'])->name('profile.password.update');
+    Route::get('/user/dashboard/password', [PasswordController::class, 'editStudentPassword'])->name('dashboard.password.edit');
+
     Route::get('/user', DashboardController::class)
         ->middleware('can:user-area')
         ->name('dashboard');
@@ -33,7 +36,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::get('/profile/photo', [ProfileController::class, 'photo'])->name('profile.photo');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::get('/dashboard/password', [PasswordController::class, 'editStudentPassword'])->name('dashboard.password.edit');
         Route::put('/dashboard/password', [PasswordController::class, 'updateStudentPassword'])->name('dashboard.password.update');
         Route::resource('complaints', ComplaintController::class);
     });
@@ -45,6 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
         Route::get('/complaints/export', [ComplaintReportController::class, 'export'])->name('complaints.export');
+        Route::get('/complaints/export/pdf', [ComplaintReportController::class, 'exportPdf'])->name('complaints.export-pdf');
         Route::patch('/complaints/{complaint}/status', [ComplaintController::class, 'updateStatus'])->name('complaints.update-status');
         Route::resource('complaints', ComplaintController::class)->except(['create', 'store']);
 

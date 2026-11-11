@@ -39,7 +39,7 @@
                     <div class="profile-photo-field">
                         <div>
                             <strong>Foto profil</strong>
-                            <p>JPG, PNG, atau WEBP. Ukuran maksimal 2 MB.</p>
+                            <p>JPG, PNG, atau WEBP. Ukuran maksimal 500 KB.</p>
                         </div>
                         <label class="profile-upload-button" for="profile_photo">
                             Pilih foto
@@ -51,52 +51,76 @@
                     @enderror
 
                     <div class="profile-form-fields">
-                        @if ($user->isAdmin())
-                            <label class="field" for="name">
-                                Nama lengkap
-                                <input id="name" name="name" value="{{ old('name', $user->name) }}" maxlength="255" autocomplete="name" required>
-                            </label>
-                        @else
-                            <label class="field" for="name">
-                                Nama lengkap
-                                <input id="name" value="{{ $user->name }}" maxlength="255" autocomplete="name" readonly>
-                            </label>
-                            <label class="field" for="nim">
-                                NIM
-                                <input id="nim" value="{{ $user->nim }}" maxlength="32" autocomplete="username" readonly>
-                            </label>
+                        <div class="profile-readonly-field">
+                            <span>Nama lengkap</span>
+                            <strong>{{ $user->name }}</strong>
+                        </div>
+                        @if (! $user->isAdmin())
+                            <div class="profile-readonly-field">
+                                <span>NIM</span>
+                                <strong>{{ $user->nim }}</strong>
+                            </div>
                         @endif
-
-                        <label class="field" for="email">
-                            Email
-                            <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" maxlength="255" autocomplete="email" required>
-                        </label>
+                        <div class="profile-readonly-field">
+                            <span>Email</span>
+                            <strong>{{ $user->email }}</strong>
+                        </div>
                     </div>
 
                     <div class="profile-form-actions">
-                        <p>Perubahan akan tersimpan pada akun Anda.</p>
-                        <button class="primary-button" type="submit">Simpan Profil</button>
+                        <p>Pilih foto baru untuk memperbarui foto profil.</p>
+                        <button class="primary-button" type="submit">Simpan Foto Profil</button>
                     </div>
                 </form>
             </section>
 
-            <aside class="panel profile-details">
-                <h2>Informasi akun</h2>
-                <dl>
-                    <div>
-                        <dt>Jenis akun</dt>
-                        <dd>{{ $user->isAdmin() ? 'Administrator' : 'Mahasiswa' }}</dd>
+            <div class="profile-sidebar">
+                <aside class="panel profile-details">
+                    <h2>Informasi akun</h2>
+                    <dl>
+                        <div>
+                            <dt>Jenis akun</dt>
+                            <dd>{{ $user->isAdmin() ? 'Administrator' : 'Mahasiswa' }}</dd>
+                        </div>
+                        <div>
+                            <dt>Bergabung sejak</dt>
+                            <dd>{{ $user->created_at->format('d M Y') }}</dd>
+                        </div>
+                    </dl>
+                    <a class="profile-password-link" href="#ubah-kata-sandi">
+                        <span>Ubah kata sandi</span><span aria-hidden="true">→</span>
+                    </a>
+                </aside>
+
+                <section class="panel password-panel" id="ubah-kata-sandi">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Ubah kata sandi</h2>
+                            <p>Konfirmasi kata sandi saat ini sebelum menyimpan yang baru.</p>
+                        </div>
                     </div>
-                    <div>
-                        <dt>Bergabung sejak</dt>
-                        <dd>{{ $user->created_at->format('d M Y') }}</dd>
-                    </div>
-                    <div>
-                        <dt>Kata sandi</dt>
-                        <dd>••••••••</dd>
-                    </div>
-                </dl>
-            </aside>
+                    <form class="complaint-form password-form" method="POST" action="{{ route('profile.password.update') }}">
+                        @csrf
+                        @method('PUT')
+                        <label class="field" for="current_password">
+                            Kata sandi saat ini
+                            <input id="current_password" name="current_password" type="password" autocomplete="current-password" required>
+                        </label>
+                        <label class="field" for="password">
+                            Kata sandi baru
+                            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                        </label>
+                        <label class="field" for="password_confirmation">
+                            Ulangi kata sandi baru
+                            <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" required>
+                        </label>
+                        <div class="form-actions">
+                            <p>Gunakan minimal 8 karakter.</p>
+                            <button class="primary-button" type="submit">Simpan kata sandi</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
         </div>
     </div>
 

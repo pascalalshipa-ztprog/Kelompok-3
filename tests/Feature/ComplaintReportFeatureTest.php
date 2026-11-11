@@ -70,4 +70,56 @@ class ComplaintReportFeatureTest extends TestCase
             ->get(route('admin.complaints.export'))
             ->assertForbidden();
     }
+
+    public function test_admin_can_download_a_pdf_report(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $student = User::factory()->create(['name' => 'Cantika Mahasiswa']);
+        $category = Category::factory()->create(['name' => 'Fasilitas']);
+        Complaint::factory()
+            ->for($student)
+            ->for($category)
+            ->create([
+                'title' => 'Lampu koridor padam',
+                'description' => 'Lampu di koridor gedung B tidak menyala.',
+                'status' => 'Diproses',
+            ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.complaints.export-pdf'));
+
+        $response->assertOk()
+            ->assertHeader('Content-Type', 'application/pdf');
+
+        $this->assertStringContainsString('attachment', $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString('laporan-pengaduan-', $response->headers->get('Content-Disposition'));
+        $this->assertStringStartsWith('%PDF-', $response->getContent());
+    }
+
+    public function test_student_cannot_download_the_admin_pdf_report(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->get(route('admin.complaints.export-pdf'))
+            ->assertForbidden();
+    }
+
+    public function test_pdf_report_view_includes_explanation_chart_and_workflow_diagram(): void
+    {
+        $html = view('reports.complaints-pdf', [
+            'complaints' => collect(),
+            'statusCounts' => [
+                'Menunggu' => 2,
+                'Diproses' => 1,
+                'Selesai' => 3,
+                'Ditolak' => 0,
+            ],
+            'totalCount' => 6,
+            'generatedAt' => now(),
+        ])->render();
+
+        $this->assertStringContainsString('Penjelasan ringkasan', $html);
+        $this->assertStringContainsString('Grafik pengaduan berdasarkan status', $html);
+        $this->assertStringContainsString('Diagram alur penanganan', $html);
+        $this->assertStringContainsString('Mahasiswa', $html);
+        $this->assertStringContainsString('Admin', $html);
+    }
 }

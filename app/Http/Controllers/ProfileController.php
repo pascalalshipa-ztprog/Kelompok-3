@@ -8,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
@@ -52,18 +51,9 @@ class ProfileController extends Controller
         $user = $request->user();
         abort_unless($user instanceof User, 403);
 
-        $rules = [
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user)],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
-        ];
-
-        if ($user->isAdmin()) {
-            $rules['name'] = ['required', 'string', 'max:255'];
-        }
-
-        $validated = $request->validate($rules);
-
-        unset($validated['profile_photo']);
+        $request->validate([
+            'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:500'],
+        ]);
 
         $previousPhotoPath = $user->profile_photo_path;
         $newPhotoPath = null;
@@ -75,17 +65,13 @@ class ProfileController extends Controller
                 throw new RuntimeException('Unable to store the uploaded profile photo.');
             }
 
-            $validated['profile_photo_path'] = $newPhotoPath;
-        }
-
-        try {
-            $user->update($validated);
-        } catch (Throwable $exception) {
-            if ($newPhotoPath !== null) {
+            try {
+                $user->update(['profile_photo_path' => $newPhotoPath]);
+            } catch (Throwable $exception) {
                 Storage::disk('public')->delete($newPhotoPath);
-            }
 
-            throw $exception;
+                throw $exception;
+            }
         }
 
         if ($newPhotoPath !== null && $previousPhotoPath !== null

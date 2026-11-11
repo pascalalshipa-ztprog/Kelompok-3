@@ -27,10 +27,6 @@
                         <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
                         <span class="nav-label">Buat Pengaduan</span><span class="nav-chevron" aria-hidden="true">›</span>
                     </a>
-                    <a class="{{ request()->routeIs('dashboard.password.*') ? 'is-active' : '' }}" @if (request()->routeIs('dashboard.password.*')) aria-current="page" @endif href="{{ route('dashboard.password.edit') }}">
-                        <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 5v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
-                        <span class="nav-label">Ubah Kata Sandi</span><span class="nav-chevron" aria-hidden="true">›</span>
-                    </a>
                 @endunless
                 <a class="{{ (auth()->user()->isAdmin() ? request()->routeIs('admin.complaints.*') : request()->routeIs('complaints.index', 'complaints.show')) ? 'is-active' : '' }}" @if (auth()->user()->isAdmin() ? request()->routeIs('admin.complaints.*') : request()->routeIs('complaints.index', 'complaints.show')) aria-current="page" @endif href="{{ route(auth()->user()->isAdmin() ? 'admin.complaints.index' : 'complaints.index') }}">
                     <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5m-10 4h6m-6 4h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>

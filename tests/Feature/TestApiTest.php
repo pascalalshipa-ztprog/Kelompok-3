@@ -84,6 +84,23 @@ class TestApiTest extends TestCase
             ->assertJsonMissing(['title' => $facilityComplaint->title]);
     }
 
+    public function test_admin_can_search_complaints_by_reporter_name(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $reporter = User::factory()->create(['name' => 'Cantika Mahasiswa']);
+        $reportedComplaint = Complaint::factory()
+            ->for($reporter)
+            ->create(['title' => 'Lampu koridor padam']);
+        $otherComplaint = Complaint::factory()->create(['title' => 'Aduan mahasiswa lain']);
+
+        $this->actingAs($admin)
+            ->getJson(route('api.complaints.index', ['search' => 'Cantika Mahasiswa']))
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $reportedComplaint->id)
+            ->assertJsonMissing(['title' => $otherComplaint->title]);
+    }
+
     public function test_complaint_api_orders_records_by_ascending_id(): void
     {
         $student = User::factory()->create();

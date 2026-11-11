@@ -113,36 +113,41 @@ class AuthFlowTest extends TestCase
             ->assertDontSee('<script', false);
     }
 
-    public function test_password_change_form_is_available_from_sidebar_but_not_dashboard(): void
+    public function test_password_change_form_is_available_on_the_profile_not_the_sidebar(): void
     {
         $student = User::factory()->create();
 
         $this->actingAs($student)->get(route('dashboard'))
             ->assertOk()
-            ->assertSee(route('dashboard.password.edit'), false)
+            ->assertDontSee(route('dashboard.password.edit'), false)
+            ->assertDontSee('Ubah Kata Sandi')
             ->assertDontSee('Simpan kata sandi')
             ->assertDontSee('id="ubah-kata-sandi"', false);
 
-        $this->get(route('dashboard.password.edit'))
+        $this->get(route('profile.edit'))
             ->assertOk()
-            ->assertViewIs('dashboard.password')
-            ->assertSee(route('dashboard.password.update'), false)
+            ->assertSee(route('profile.password.update'), false)
+            ->assertSee('id="ubah-kata-sandi"', false)
             ->assertSee('Ubah kata sandi');
 
-        $this->actingAs(User::factory()->create(['role' => 'admin']))
+        $this->get(route('dashboard.password.edit'))
+            ->assertRedirect(route('profile.edit'));
+
+        $admin = User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin)
             ->get(route('dashboard.password.edit'))
-            ->assertForbidden();
+            ->assertRedirect(route('admin.profile.edit'));
     }
 
     public function test_student_can_change_password_with_their_current_password(): void
     {
         $student = User::factory()->create(['password' => 'current-password']);
 
-        $this->actingAs($student)->put(route('dashboard.password.update'), [
+        $this->actingAs($student)->put(route('profile.password.update'), [
             'current_password' => 'current-password',
             'password' => 'new-password-123',
             'password_confirmation' => 'new-password-123',
-        ])->assertRedirect(route('dashboard.password.edit'))
+        ])->assertRedirect(route('profile.edit'))
             ->assertSessionHas('status', 'Kata sandi berhasil diperbarui.');
 
         $this->assertTrue(Hash::check('new-password-123', $student->refresh()->password));
@@ -152,25 +157,31 @@ class AuthFlowTest extends TestCase
     {
         $student = User::factory()->create(['password' => 'current-password']);
 
-        $this->actingAs($student)->from(route('dashboard.password.edit'))->put(route('dashboard.password.update'), [
+        $this->actingAs($student)->from(route('profile.edit'))->put(route('profile.password.update'), [
             'current_password' => 'incorrect-password',
             'password' => 'new-password-123',
             'password_confirmation' => 'new-password-123',
-        ])->assertRedirect(route('dashboard.password.edit'))
+        ])->assertRedirect(route('profile.edit'))
             ->assertSessionHasErrors('current_password');
 
         $this->assertTrue(Hash::check('current-password', $student->refresh()->password));
     }
 
-    public function test_admin_cannot_use_student_dashboard_password_change(): void
+    public function test_admin_can_change_password_from_their_profile(): void
     {
-        $admin = User::factory()->create(['role' => 'admin']);
+        $admin = User::factory()->create([
+            'role' => 'admin',
+            'password' => 'current-password',
+        ]);
 
-        $this->actingAs($admin)->put(route('dashboard.password.update'), [
-            'current_password' => 'password',
+        $this->actingAs($admin)->put(route('profile.password.update'), [
+            'current_password' => 'current-password',
             'password' => 'new-password-123',
             'password_confirmation' => 'new-password-123',
-        ])->assertForbidden();
+        ])->assertRedirect(route('admin.profile.edit'))
+            ->assertSessionHas('status', 'Kata sandi berhasil diperbarui.');
+
+        $this->assertTrue(Hash::check('new-password-123', $admin->refresh()->password));
     }
 
     public function test_student_registration_creates_a_hashed_student_account(): void
@@ -223,6 +234,52 @@ class AuthFlowTest extends TestCase
         $this->assertAuthenticatedAs($student);
     }
 
+    public function test_remember_me_restores_the_login_after_the_session_is_lost(): void
+    {
+        $student = User::factory()->create([
+            'nim' => '25170018',
+            'password' => 'password123',
+            'remember_token' => null,
+        ]);
+        $recallerName = auth()->guard()->getRecallerName();
+
+        $loginResponse = $this->post(route('login.store'), [
+            'identity' => '25170018',
+            'password' => 'password123',
+            'remember' => '1',
+        ])->assertRedirect(route('dashboard'))
+            ->assertCookie($recallerName);
+
+        $recallerCookie = $loginResponse->getCookie($recallerName);
+
+        $this->assertNotNull($recallerCookie);
+        $this->assertNotEmpty($student->refresh()->remember_token);
+
+        $this->flushSession();
+        $this->app['auth']->forgetGuards();
+
+        $this->withCookie($recallerName, $recallerCookie->getValue())
+            ->get(route('dashboard'))
+            ->assertOk()
+            ->assertViewIs('dashboard.user');
+
+        $this->assertAuthenticatedAs($student);
+    }
+
+    public function test_login_without_remember_does_not_create_a_recaller_cookie(): void
+    {
+        $student = User::factory()->create(['nim' => '25170018', 'password' => 'password123']);
+        $recallerName = auth()->guard()->getRecallerName();
+
+        $this->post(route('login.store'), [
+            'identity' => '25170018',
+            'password' => 'password123',
+        ])->assertRedirect(route('dashboard'))
+            ->assertCookieMissing($recallerName);
+
+        $this->assertAuthenticatedAs($student);
+    }
+
     public function test_login_accepts_an_admin_email(): void
     {
         $admin = User::factory()->create([
@@ -250,6 +307,20 @@ class AuthFlowTest extends TestCase
         $this->assertAuthenticatedAs($student);
     }
 
+    public function test_student_login_ignores_an_intended_admin_complaint_page(): void
+    {
+        $student = User::factory()->create(['nim' => '25170018', 'password' => 'password123']);
+
+        $this->get(route('admin.complaints.index'))
+            ->assertRedirect(route('login'));
+
+        $this->post(route('login.store'), ['identity' => '25170018', 'password' => 'password123'])
+            ->assertRedirect(route('dashboard'));
+
+        $this->assertAuthenticatedAs($student);
+        $this->get(route('admin.complaints.index'))->assertForbidden();
+    }
+
     public function test_admin_login_ignores_an_intended_student_dashboard(): void
     {
         $admin = User::factory()->create([
@@ -265,6 +336,24 @@ class AuthFlowTest extends TestCase
             ->assertRedirect(route('admin.dashboard'));
 
         $this->assertAuthenticatedAs($admin);
+    }
+
+    public function test_admin_login_ignores_an_intended_student_complaint_page(): void
+    {
+        $admin = User::factory()->create([
+            'email' => 'admin@kampus.ac.id',
+            'role' => 'admin',
+            'password' => 'password123',
+        ]);
+
+        $this->get(route('complaints.index'))
+            ->assertRedirect(route('login'));
+
+        $this->post(route('login.store'), ['identity' => 'admin@kampus.ac.id', 'password' => 'password123'])
+            ->assertRedirect(route('admin.dashboard'));
+
+        $this->assertAuthenticatedAs($admin);
+        $this->get(route('complaints.index'))->assertForbidden();
     }
 
     public function test_login_rejects_an_invalid_password(): void
@@ -521,7 +610,7 @@ class AuthFlowTest extends TestCase
         $this->assertDatabaseMissing('complaints', ['id' => $complaint->id]);
     }
 
-    public function test_admin_can_view_all_complaints_and_update_status(): void
+    public function test_admin_can_view_all_complaints_and_update_status_without_editing_them(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $firstStudent = User::factory()->create();
@@ -533,14 +622,20 @@ class AuthFlowTest extends TestCase
         $this->actingAs($admin)->get(route('admin.complaints.index'))
             ->assertOk()
             ->assertSee($firstComplaint->title)
-            ->assertSee($secondComplaint->title);
+            ->assertSee($secondComplaint->title)
+            ->assertDontSee(route('admin.complaints.edit', $firstComplaint), false)
+            ->assertDontSee('>Edit</a>', false);
 
         $this->put(route('admin.complaints.update', $firstComplaint), [
             'category_id' => $category->id,
             'title' => $firstComplaint->title,
             'description' => $firstComplaint->description,
             'status' => 'Diproses',
-        ])->assertRedirect(route('admin.complaints.show', $firstComplaint));
+        ])->assertForbidden();
+
+        $this->patch(route('admin.complaints.update-status', $firstComplaint), [
+            'status' => 'Diproses',
+        ])->assertRedirect();
 
         $this->assertDatabaseHas('complaints', ['id' => $firstComplaint->id, 'status' => 'Diproses']);
     }
@@ -578,7 +673,8 @@ class AuthFlowTest extends TestCase
 
         $this->actingAs($student)->get(route('complaints.index'))
             ->assertOk()
-            ->assertDontSee('inline-status-form');
+            ->assertDontSee('inline-status-form')
+            ->assertDontSee('>Edit</a>', false);
     }
 
     public function test_student_cannot_update_complaint_status_inline(): void

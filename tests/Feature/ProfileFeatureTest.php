@@ -21,12 +21,15 @@ class ProfileFeatureTest extends TestCase
             ->assertViewIs('profile.edit')
             ->assertSee('Profil Saya')
             ->assertSee($student->name)
-            ->assertSee('id="name" value="'.$student->name.'" maxlength="255" autocomplete="name" readonly', false)
-            ->assertSee('id="nim" value="'.$student->nim.'" maxlength="32" autocomplete="username" readonly', false)
+            ->assertSee($student->nim)
+            ->assertSee($student->email)
             ->assertDontSee('name="name"', false)
             ->assertDontSee('name="nim"', false)
+            ->assertDontSee('name="email"', false)
             ->assertDontSee('<script', false)
-            ->assertSee('profile_photo');
+            ->assertSee('profile_photo')
+            ->assertSee(route('profile.password.update'), false)
+            ->assertSee('Ubah kata sandi');
     }
 
     public function test_admin_can_view_their_profile_page(): void
@@ -37,8 +40,11 @@ class ProfileFeatureTest extends TestCase
             ->assertOk()
             ->assertSee('Administrator')
             ->assertSee($admin->name)
+            ->assertSee($admin->email)
             ->assertDontSee('name="nim"', false)
-            ->assertDontSee('for="nim"', false);
+            ->assertDontSee('name="name"', false)
+            ->assertDontSee('name="email"', false)
+            ->assertSee(route('profile.password.update'), false);
     }
 
     public function test_guest_is_redirected_from_profile_page(): void
@@ -52,12 +58,14 @@ class ProfileFeatureTest extends TestCase
         $student = User::factory()->create([
             'name' => 'Original Student',
             'nim' => '25170019',
+            'email' => 'student@example.com',
         ]);
 
-        $this->actingAs($student)->put(route('profile.update'), [
+        $this->actingAs($student)->from(route('profile.edit'))->put(route('profile.update'), [
             'name' => 'Updated Student',
             'nim' => '25170019',
-            'email' => 'updated@kampus.ac.id',
+            'email' => $student->email,
+            'role' => 'admin',
             'profile_photo' => $this->validPngUpload(),
         ])->assertRedirect(route('profile.edit'))
             ->assertSessionHas('status', 'Profil berhasil diperbarui.');
@@ -65,7 +73,8 @@ class ProfileFeatureTest extends TestCase
         $student->refresh();
         $this->assertSame('Original Student', $student->name);
         $this->assertSame('25170019', $student->nim);
-        $this->assertSame('updated@kampus.ac.id', $student->email);
+        $this->assertSame('student', $student->role);
+        $this->assertSame('student@example.com', $student->email);
         $this->assertNotNull($student->profile_photo_path);
         Storage::disk('public')->assertExists($student->profile_photo_path);
 
@@ -85,40 +94,70 @@ class ProfileFeatureTest extends TestCase
             ->assertHeader('content-type', 'image/png');
     }
 
-    public function test_student_cannot_change_name_or_nim_from_the_profile_update_request(): void
+    public function test_student_cannot_change_account_details_from_the_profile_update_request(): void
     {
         $student = User::factory()->create([
             'name' => 'Original Student',
             'nim' => '25170019',
+            'email' => 'student@example.com',
         ]);
 
-        $this->actingAs($student)->put(route('profile.update'), [
+        $this->actingAs($student)->from(route('profile.edit'))->put(route('profile.update'), [
             'name' => 'Changed Name',
             'nim' => '25170023',
             'email' => 'updated@kampus.ac.id',
-        ])->assertRedirect(route('profile.edit'));
+            'role' => 'admin',
+        ])->assertRedirect(route('profile.edit'))
+            ->assertSessionHas('status', 'Profil berhasil diperbarui.');
 
         $student->refresh();
         $this->assertSame('Original Student', $student->name);
         $this->assertSame('25170019', $student->nim);
-        $this->assertSame('updated@kampus.ac.id', $student->email);
+        $this->assertSame('student@example.com', $student->email);
+        $this->assertSame('student', $student->role);
     }
 
-    public function test_admin_can_upload_a_profile_photo(): void
+    public function test_admin_can_upload_a_profile_photo_without_changing_account_details(): void
     {
         Storage::fake('public');
-        $admin = User::factory()->create(['role' => 'admin']);
+        $admin = User::factory()->create([
+            'role' => 'admin',
+            'email' => 'admin@example.com',
+        ]);
+        $originalName = $admin->name;
 
-        $this->actingAs($admin)->put(route('admin.profile.update'), [
+        $this->actingAs($admin)->from(route('admin.profile.edit'))->put(route('admin.profile.update'), [
             'name' => 'Updated Campus Admin',
-            'email' => $admin->email,
+            'email' => 'changed@example.com',
+            'role' => 'student',
             'profile_photo' => $this->validPngUpload(),
         ])->assertRedirect(route('admin.profile.edit'));
 
         $admin->refresh();
-        $this->assertSame('Updated Campus Admin', $admin->name);
+        $this->assertNotSame('Updated Campus Admin', $admin->name);
+        $this->assertSame($originalName, $admin->name);
+        $this->assertSame('admin', $admin->role);
+        $this->assertSame('admin@example.com', $admin->email);
         $this->assertNotNull($admin->profile_photo_path);
         Storage::disk('public')->assertExists($admin->profile_photo_path);
+    }
+
+    public function test_admin_cannot_change_account_details_from_the_profile_update_request(): void
+    {
+        $admin = User::factory()->create([
+            'role' => 'admin',
+            'email' => 'admin@example.com',
+        ]);
+
+        $this->actingAs($admin)->from(route('admin.profile.edit'))->put(route('admin.profile.update'), [
+            'name' => 'Changed Admin Name',
+            'email' => 'updated-admin@kampus.ac.id',
+        ])->assertRedirect(route('admin.profile.edit'))
+            ->assertSessionHas('status', 'Profil berhasil diperbarui.');
+
+        $this->assertSame($admin->name, $admin->refresh()->name);
+        $this->assertSame('admin@example.com', $admin->email);
+        $this->assertSame('admin', $admin->role);
     }
 
     public function test_admin_nim_is_unchanged_when_updating_profile(): void
@@ -148,6 +187,25 @@ class ProfileFeatureTest extends TestCase
             ->assertSessionHasErrors('profile_photo');
 
         $this->assertSame($student->name, $student->refresh()->name);
+        $this->assertSame([], Storage::disk('public')->allFiles());
+    }
+
+    public function test_profile_photo_larger_than_500_kb_is_rejected(): void
+    {
+        Storage::fake('public');
+        $student = User::factory()->create();
+        $pngContents = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l2cAAAAASUVORK5CYII=');
+
+        $this->actingAs($student)->from(route('profile.edit'))->put(route('profile.update'), [
+            'email' => $student->email,
+            'profile_photo' => UploadedFile::fake()->createWithContent(
+                'large-profile.png',
+                $pngContents.str_repeat('x', 500 * 1024),
+            ),
+        ])->assertRedirect(route('profile.edit'))
+            ->assertSessionHasErrors('profile_photo');
+
+        $this->assertNull($student->refresh()->profile_photo_path);
         $this->assertSame([], Storage::disk('public')->allFiles());
     }
 
