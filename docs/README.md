@@ -2,6 +2,10 @@
 
 Dokumen ini menjelaskan struktur dan alur backend aplikasi Sistem Pengaduan Mahasiswa yang dibangun menggunakan Laravel 13 dan PHP 8.3 atau lebih baru.
 
+Dokumen terkait: [Panduan frontend](./frontend.md),
+[panduan database](./database.md), [ERD dan kamus data](./ERD.md), dan
+[laporan pengujian](./hasil-pengujian.md).
+
 ## Daftar Isi
 
 - [Ringkasan Backend](#ringkasan-backend)
@@ -67,9 +71,9 @@ Route web aplikasi didefinisikan di `routes/web.php`. Route autentikasi tertentu
 | `GET /register` | `register` | Form pendaftaran mahasiswa. |
 | `POST /register` | `register.store` | Membuat akun mahasiswa. |
 | `GET /forgot-password` | `password.request` | Form permintaan tautan reset kata sandi. |
-| `POST /forgot-password` | `password.email` | Mengirim tautan reset; dibatasi 5 request per menit. |
-| `GET /reset-password/{token}` | `password.reset` | Form reset kata sandi. |
-| `POST /reset-password` | `password.update` | Memproses reset kata sandi; dibatasi 5 request per menit. |
+| `POST /forgot-password` | `password.email` | Memproses permintaan tautan reset; dibatasi 5 request per menit. Pengiriman email nyata belum dikonfigurasi/diverifikasi. |
+| `GET /reset-password/{token}` | `password.reset` | Menampilkan form reset untuk token. |
+| `POST /reset-password` | `password.update` | Memvalidasi token dan kata sandi baru; dibatasi 5 request per menit. Alur ini belum dinyatakan siap digunakan sampai email nyata diuji end-to-end. |
 | `GET /user`, `GET /admin` | `dashboard`, `admin.dashboard` | Ringkasan sesuai peran. |
 | `GET /user/profile`, `PUT /user/profile` | `profile.edit`, `profile.update` | Profil mahasiswa; nama, NIM, dan email hanya-baca, foto dapat diganti (maks. 500 KB). |
 | `GET /admin/profile`, `PUT /admin/profile` | `admin.profile.edit`, `admin.profile.update` | Profil admin; identitas hanya-baca dan foto dapat diganti (maks. 500 KB). |
@@ -85,7 +89,7 @@ Route web aplikasi didefinisikan di `routes/web.php`. Route autentikasi tertentu
 | `GET /api/complaints` | `api.complaints.index` | Satu endpoint JSON pengaduan: mahasiswa melihat laporan sendiri, admin melihat seluruh laporan. |
 | `POST /logout` | `logout` | Mengakhiri sesi login. |
 
-Route API saat ini berada di `routes/web.php`, bukan file route API terpisah. Endpoint tunggal `GET /api/complaints` berada di grup `auth`, sehingga memerlukan sesi login Laravel dan tidak menyediakan akses anonim. Dengan akun demo mahasiswa (`25170023` / `cantika@kampus.ac.id`), endpoint hanya mengembalikan pengaduan milik akun tersebut. Dengan akun demo admin (`admin@kampus.ac.id`), endpoint mengembalikan pengaduan dari semua pengguna. Format JSON ditangani `ComplaintResource` dan pagination Laravel. Parameter `search` mendukung pencarian judul, deskripsi, kategori, dan nama pelapor, sedangkan `page` digunakan untuk navigasi halaman.
+Route API saat ini berada di `routes/web.php`, bukan file route API terpisah. Endpoint tunggal `GET /api/complaints` berada di grup `auth`, sehingga memerlukan sesi login Laravel dan tidak menyediakan akses anonim. Dengan akun demo mahasiswa (`25170023`), endpoint hanya mengembalikan pengaduan milik akun tersebut. Dengan akun demo admin (`admin@kampus.ac.id`), endpoint mengembalikan pengaduan dari semua pengguna. Format JSON ditangani `ComplaintResource` dan pagination Laravel. Parameter `search` mendukung pencarian judul, deskripsi, kategori, dan nama pelapor, sedangkan `page` digunakan untuk navigasi halaman.
 
 Beberapa endpoint lama tetap tersedia sebagai alias kompatibilitas di `/complaints` dan `/users`; operasi tetap menjalankan pemeriksaan hak akses controller/policy.
 
@@ -179,7 +183,12 @@ Jalankan semua tes:
 php artisan test
 ```
 
-Tes fitur tersedia di `tests/Feature/`, sedangkan tes unit berada di `tests/Unit/`. Tambahkan atau jalankan tes yang paling dekat dengan perubahan backend yang dikerjakan.
+Tes fitur tersedia di `tests/Feature/`, termasuk tes API pada
+`tests/Feature/TestApiTest.php`; tes unit berada di `tests/Unit/`. Jalankan tes
+yang paling dekat dengan perubahan backend yang dikerjakan. Hasil verifikasi
+terakhir, inventaris kasus, dan batasan yang diketahui dicatat di
+[hasil-pengujian.md](./hasil-pengujian.md) serta
+[README utama](../README.md#pengujian-dan-status-verifikasi).
 
 ## Troubleshooting
 
