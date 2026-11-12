@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="510" viewBox="0 0 1200 510" role="img" aria-labelledby="title desc">
+  <title id="title">Roadmap milestone M1 sampai M3</title>
+  <desc id="desc">Tiga milestone proyek: fondasi, implementasi MVP, dan integrasi serta dokumentasi.</desc>
+  <rect width="1200" height="510" rx="24" fill="#f3f6fb"/>
+  <text x="60" y="66" fill="#15243a" font-family="Arial, sans-serif" font-size="30" font-weight="700">ROADMAP PROYEK • M1–M3</text>
+  <text x="60" y="101" fill="#56677f" font-family="Arial, sans-serif" font-size="17">Periode dirangkum dari rentang tanggal commit repository • 2026</text>
+  <path d="M170 162 H1030" stroke="#b9c9dc" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="190" cy="162" r="13" fill="#2673c8"/>
+  <circle cx="600" cy="162" r="13" fill="#2673c8"/>
+  <circle cx="1010" cy="162" r="13" fill="#d58a15"/>
+  <g font-family="Arial, sans-serif">
+    <rect x="45" y="194" width="350" height="258" rx="18" fill="#ffffff" stroke="#c9d7e8" stroke-width="2"/>
+    <rect x="45" y="194" width="350" height="12" rx="6" fill="#2673c8"/>
+    <text x="72" y="244" fill="#2673c8" font-size="16" font-weight="700">M1 • FONDASI</text>
+    <text x="72" y="279" fill="#15243a" font-size="21" font-weight="700">8–30 Oktober</text>
+    <text x="72" y="319" fill="#35465d" font-size="16">• Repository dan struktur awal</text>
+    <text x="72" y="349" fill="#35465d" font-size="16">• Domain dan skema database</text>
+    <text x="72" y="379" fill="#35465d" font-size="16">• Dokumentasi dasar</text>
+    <rect x="72" y="405" width="124" height="28" rx="14" fill="#e6f4ec"/>
+    <text x="87" y="424" fill="#24724a" font-size="14" font-weight="700">SELESAI</text>
+
+    <rect x="425" y="194" width="350" height="258" rx="18" fill="#ffffff" stroke="#c9d7e8" stroke-width="2"/>
+    <rect x="425" y="194" width="350" height="12" rx="6" fill="#2673c8"/>
+    <text x="452" y="244" fill="#2673c8" font-size="16" font-weight="700">M2 • IMPLEMENTASI MVP</text>
+    <text x="452" y="279" fill="#15243a" font-size="21" font-weight="700">29 Okt–4 Nov</text>
+    <text x="452" y="319" fill="#35465d" font-size="16">• Auth, role, dan dashboard</text>
+    <text x="452" y="349" fill="#35465d" font-size="16">• Pengaduan dan tindak lanjut</text>
+    <text x="452" y="379" fill="#35465d" font-size="16">• Relasi data dan laporan</text>
+    <rect x="452" y="405" width="124" height="28" rx="14" fill="#e6f4ec"/>
+    <text x="467" y="424" fill="#24724a" font-size="14" font-weight="700">SELESAI</text>
+
+    <rect x="805" y="194" width="350" height="258" rx="18" fill="#ffffff" stroke="#e4c992" stroke-width="2"/>
+    <rect x="805" y="194" width="350" height="12" rx="6" fill="#d58a15"/>
+    <text x="832" y="244" fill="#a56400" font-size="16" font-weight="700">M3 • INTEGRASI &amp; DOKS</text>
+    <text x="832" y="279" fill="#15243a" font-size="21" font-weight="700">4–12 November</text>
+    <text x="832" y="319" fill="#35465d" font-size="16">• UI responsif dan API baca-saja</text>
+    <text x="832" y="349" fill="#35465d" font-size="16">• Tes dan dokumentasi proyek</text>
+    <text x="832" y="379" fill="#35465d" font-size="16">• PDF/email perlu diverifikasi</text>
+    <rect x="832" y="405" width="170" height="28" rx="14" fill="#fff1d8"/>
+    <text x="847" y="424" fill="#9a5d00" font-size="14" font-weight="700">SELESAI SEBAGIAN</text>
+  </g>
+</svg>

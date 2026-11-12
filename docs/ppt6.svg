@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" role="img" aria-labelledby="title desc">
+  <title id="title">ERD Sistem Pengaduan Mahasiswa</title>
+  <desc id="desc">Diagram relasi users dan categories ke complaints, termasuk foreign key dan aturan penghapusan.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#55718f"/></marker></defs>
+  <rect width="1200" height="590" rx="24" fill="#f3f6fb"/>
+  <text x="52" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">ERD • TABEL &amp; RELASI UTAMA</text>
+  <text x="52" y="91" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Relasi data dan aturan foreign key aplikasi.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="52" y="130" width="300" height="320" rx="15" fill="#ffffff" stroke="#9bbce5" stroke-width="2"/>
+    <path d="M52 145 Q52 130 67 130 H337 Q352 130 352 145 V181 H52 Z" fill="#e8f2ff"/>
+    <text x="202" y="164" text-anchor="middle" fill="#174a83" font-size="19" font-weight="700">USERS</text>
+    <g fill="#35465d" font-size="15">
+      <text x="78" y="218">PK  id</text><text x="78" y="250">name</text><text x="78" y="282">nim (unique, nullable)</text>
+      <text x="78" y="314">email (unique)</text><text x="78" y="346">role</text><text x="78" y="378">password</text>
+      <text x="78" y="410">profile_photo_path</text>
+    </g>
+
+    <rect x="448" y="130" width="300" height="320" rx="15" fill="#ffffff" stroke="#e4c992" stroke-width="2"/>
+    <path d="M448 145 Q448 130 463 130 H733 Q748 130 748 145 V181 H448 Z" fill="#fff5e5"/>
+    <text x="598" y="164" text-anchor="middle" fill="#8a5a14" font-size="19" font-weight="700">COMPLAINTS</text>
+    <g fill="#35465d" font-size="15">
+      <text x="474" y="218">PK  id</text><text x="474" y="250">FK  user_id → users.id</text>
+      <text x="474" y="282">FK  category_id → categories.id</text>
+      <text x="474" y="314">title</text><text x="474" y="346">description</text>
+      <text x="474" y="378">location (nullable)</text><text x="474" y="410">status</text>
+    </g>
+
+    <rect x="844" y="130" width="300" height="320" rx="15" fill="#ffffff" stroke="#9bcbb0" stroke-width="2"/>
+    <path d="M844 145 Q844 130 859 130 H1129 Q1144 130 1144 145 V181 H844 Z" fill="#e8f6ef"/>
+    <text x="994" y="164" text-anchor="middle" fill="#226346" font-size="19" font-weight="700">CATEGORIES</text>
+    <g fill="#35465d" font-size="15">
+      <text x="870" y="218">PK  id</text><text x="870" y="250">name</text><text x="870" y="282">slug (unique)</text>
+      <text x="870" y="314">is_active</text><text x="870" y="346">created_at</text><text x="870" y="378">updated_at</text>
+    </g>
+
+    <path d="M352 275 H437" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="394" y="260" text-anchor="middle" fill="#56677f" font-size="13">1 : N</text>
+    <path d="M844 275 H758" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="800" y="260" text-anchor="middle" fill="#56677f" font-size="13">1 : N</text>
+
+    <rect x="52" y="480" width="1092" height="72" rx="15" fill="#ffffff" stroke="#c9d7e8" stroke-width="2"/>
+    <text x="78" y="510" fill="#15243a" font-size="15" font-weight="700">Aturan penghapusan</text>
+    <text x="258" y="510" fill="#35465d" font-size="14">Hapus user → complaints.user_id menjadi NULL</text>
+    <text x="704" y="510" fill="#35465d" font-size="14">Kategori terpakai → RESTRICT</text>
+    <text x="78" y="535" fill="#56677f" font-size="13">Satu user/kategori memiliki banyak pengaduan; detail field dan constraint ada di docs/ERD.md.</text>
+  </g>
+</svg>

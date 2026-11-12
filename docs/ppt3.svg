@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="670" viewBox="0 0 1200 670" role="img" aria-labelledby="title desc">
+  <title id="title">Kebutuhan MUST dan status implementasi</title>
+  <desc id="desc">Tujuh kebutuhan fungsional prioritas MUST beserta status selesai menurut presentasi mid-project.</desc>
+  <rect width="1200" height="670" rx="24" fill="#f3f6fb"/>
+  <text x="52" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">KEBUTUHAN MUST &amp; STATUS</text>
+  <text x="52" y="91" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Status seperti yang ditampilkan pada presentasi UTS / MVP review.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="52" y="125" width="1096" height="420" rx="16" fill="#ffffff" stroke="#c9d7e8" stroke-width="2"/>
+    <path d="M52 141 Q52 125 68 125 H1132 Q1148 125 1148 141 V178 H52 Z" fill="#183957"/>
+    <text x="78" y="158" fill="#ffffff" font-size="15" font-weight="700">ID</text>
+    <text x="163" y="158" fill="#ffffff" font-size="15" font-weight="700">KEBUTUHAN FUNGSIONAL</text>
+    <text x="825" y="158" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">PRIORITAS</text>
+    <text x="1023" y="158" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">STATUS</text>
+    <g stroke="#dce4ee" stroke-width="1">
+      <path d="M52 178 H1148 M52 230 H1148 M52 282 H1148 M52 334 H1148 M52 386 H1148 M52 438 H1148 M52 490 H1148"/>
+      <path d="M135 125 V545 M720 125 V545 M914 125 V545"/>
+    </g>
+    <g fill="#273c53" font-size="15">
+      <text x="78" y="211">F-01</text><text x="163" y="211">Mahasiswa mendaftar dan masuk (NIM/email)</text>
+      <text x="78" y="263">F-02</text><text x="163" y="263">Mahasiswa membuat pengaduan</text>
+      <text x="78" y="315">F-03</text><text x="163" y="315">Mahasiswa mencari dan memantau pengaduan</text>
+      <text x="78" y="367">F-04</text><text x="163" y="367">Mengubah/menghapus pengaduan berstatus Menunggu</text>
+      <text x="78" y="419">F-05</text><text x="163" y="419">Admin melihat pengaduan dan mengubah status</text>
+      <text x="78" y="471">F-06</text><text x="163" y="471">Admin mengelola akun pengguna</text>
+      <text x="78" y="523">F-07</text><text x="163" y="523">Admin mengunduh rekap CSV</text>
+    </g>
+    <g font-size="14" font-weight="700" text-anchor="middle">
+      <text x="817" y="211" fill="#174a83">MUST</text><text x="1018" y="211" fill="#238052">SELESAI</text>
+      <text x="817" y="263" fill="#174a83">MUST</text><text x="1018" y="263" fill="#238052">SELESAI</text>
+      <text x="817" y="315" fill="#174a83">MUST</text><text x="1018" y="315" fill="#238052">SELESAI</text>
+      <text x="817" y="367" fill="#174a83">MUST</text><text x="1018" y="367" fill="#238052">SELESAI</text>
+      <text x="817" y="419" fill="#174a83">MUST</text><text x="1018" y="419" fill="#238052">SELESAI</text>
+      <text x="817" y="471" fill="#174a83">MUST</text><text x="1018" y="471" fill="#238052">SELESAI</text>
+      <text x="817" y="523" fill="#174a83">MUST</text><text x="1018" y="523" fill="#238052">SELESAI</text>
+    </g>
+    <rect x="52" y="570" width="1096" height="58" rx="16" fill="#e8f6ef"/>
+    <text x="600" y="606" text-anchor="middle" fill="#226346" font-family="Arial, sans-serif" font-size="19" font-weight="700">7 dari 7 kebutuhan MUST selesai • Tidak ada fitur MUST yang tertunda</text>
+  </g>
+</svg>

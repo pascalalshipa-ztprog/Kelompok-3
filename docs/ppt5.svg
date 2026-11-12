@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="530" viewBox="0 0 1200 530" role="img" aria-labelledby="title desc">
+  <title id="title">User flow pengaduan dan perbandingan wireframe dengan implementasi</title>
+  <desc id="desc">Alur mahasiswa dari login hingga memantau status pengaduan serta alur admin untuk meninjau laporan, memperbarui status, dan mengunduh CSV.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#55718f"/></marker></defs>
+  <rect width="1200" height="530" rx="24" fill="#f3f6fb"/>
+  <text x="52" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">USER FLOW • IMPLEMENTASI</text>
+  <text x="52" y="91" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Alur utama pada aplikasi; wireframe Figma dapat ditampilkan berdampingan di presentasi.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="52" y="135" width="1096" height="150" rx="18" fill="#ffffff" stroke="#9bbce5" stroke-width="2"/>
+    <rect x="52" y="135" width="172" height="150" rx="18" fill="#e8f2ff"/>
+    <path d="M206 135 H224 V285 H206" fill="#e8f2ff"/>
+    <text x="138" y="194" text-anchor="middle" fill="#174a83" font-size="19" font-weight="700">MAHASISWA</text>
+    <text x="138" y="224" text-anchor="middle" fill="#35465d" font-size="14">laporan sendiri</text>
+    <rect x="260" y="180" width="160" height="64" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="340" y="219" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">Login</text>
+    <rect x="475" y="180" width="160" height="64" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="555" y="219" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">/user</text>
+    <rect x="690" y="180" width="190" height="64" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="785" y="219" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">Buat pengaduan</text>
+    <rect x="935" y="180" width="180" height="64" rx="14" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="1025" y="219" text-anchor="middle" fill="#226346" font-size="16" font-weight="700">Pantau status</text>
+    <path d="M420 212 H465 M635 212 H680 M880 212 H925" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="52" y="320" width="1096" height="150" rx="18" fill="#ffffff" stroke="#c0afe8" stroke-width="2"/>
+    <rect x="52" y="320" width="172" height="150" rx="18" fill="#f0ebff"/>
+    <path d="M206 320 H224 V470 H206" fill="#f0ebff"/>
+    <text x="138" y="379" text-anchor="middle" fill="#59429a" font-size="19" font-weight="700">ADMIN</text>
+    <text x="138" y="409" text-anchor="middle" fill="#35465d" font-size="14">semua laporan</text>
+    <rect x="260" y="365" width="160" height="64" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="340" y="404" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">Login</text>
+    <rect x="475" y="365" width="160" height="64" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="555" y="404" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">/admin</text>
+    <rect x="690" y="365" width="190" height="64" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="785" y="404" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">Ubah status</text>
+    <rect x="935" y="365" width="180" height="64" rx="14" fill="#fff5e5" stroke="#e4c992" stroke-width="2"/>
+    <text x="1025" y="404" text-anchor="middle" fill="#8a5a14" font-size="16" font-weight="700">Unduh CSV</text>
+    <path d="M420 397 H465 M635 397 H680 M880 397 H925" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+  </g>
+</svg>

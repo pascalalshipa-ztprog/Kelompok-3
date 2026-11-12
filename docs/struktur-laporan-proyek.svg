@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" role="img" aria-labelledby="title desc">
+  <title id="title">Struktur laporan proyek Sistem Pengaduan Mahasiswa</title>
+  <desc id="desc">Peta visual sampul dan halaman awal, lalu lima bab: pendahuluan, analisis dan perancangan, implementasi MVP, pengujian dan integrasi, serta manajemen proyek dan kolaborasi.</desc>
+  <rect width="1200" height="850" rx="24" fill="#f3f6fb"/>
+  <text x="50" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">STRUKTUR LAPORAN PROYEK</text>
+  <text x="50" y="88" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Peta isi mengikuti gambar acuan sistematika laporan • Kelompok 3</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="45" y="120" width="350" height="192" rx="16" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <rect x="45" y="120" width="350" height="10" rx="5" fill="#55718f"/>
+    <text x="68" y="163" fill="#15243a" font-size="20" font-weight="700">SAMPUL</text>
+    <text x="68" y="198" fill="#35465d" font-size="15">Judul, identitas proyek, logo</text>
+    <text x="68" y="224" fill="#35465d" font-size="15">Program studi dan mata kuliah</text>
+    <text x="68" y="250" fill="#35465d" font-size="15">Kelompok, anggota, tahun</text>
+    <text x="68" y="284" fill="#56677f" font-size="13">Identitas disesuaikan format kampus</text>
+
+    <rect x="425" y="120" width="350" height="192" rx="16" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <rect x="425" y="120" width="350" height="10" rx="5" fill="#55718f"/>
+    <text x="448" y="163" fill="#15243a" font-size="20" font-weight="700">HALAMAN AWAL</text>
+    <text x="448" y="198" fill="#35465d" font-size="15">Kata pengantar dan daftar isi</text>
+    <text x="448" y="224" fill="#35465d" font-size="15">Daftar gambar dan daftar tabel</text>
+    <text x="448" y="250" fill="#35465d" font-size="15">Nomor halaman dan keterangan</text>
+    <text x="448" y="284" fill="#56677f" font-size="13">Lengkapi sesuai format laporan final</text>
+
+    <rect x="805" y="120" width="350" height="192" rx="16" fill="#ffffff" stroke="#9bbce5" stroke-width="2"/>
+    <rect x="805" y="120" width="350" height="10" rx="5" fill="#2673c8"/>
+    <text x="828" y="163" fill="#174a83" font-size="20" font-weight="700">BAB I • PENDAHULUAN</text>
+    <text x="828" y="198" fill="#35465d" font-size="15">Latar belakang dan rumusan masalah</text>
+    <text x="828" y="224" fill="#35465d" font-size="15">Tujuan dan manfaat proyek</text>
+    <text x="828" y="250" fill="#35465d" font-size="15">Ruang lingkup dan batasan MVP</text>
+    <text x="828" y="276" fill="#35465d" font-size="15">Tim dan pembagian peran</text>
+
+    <rect x="45" y="346" width="260" height="444" rx="16" fill="#ffffff" stroke="#9bbce5" stroke-width="2"/>
+    <rect x="45" y="346" width="260" height="10" rx="5" fill="#2673c8"/>
+    <text x="66" y="390" fill="#174a83" font-size="17" font-weight="700">BAB II</text>
+    <text x="66" y="416" fill="#15243a" font-size="16" font-weight="700">Analisis &amp; Perancangan</text>
+    <text x="66" y="461" fill="#35465d" font-size="14">• Pengguna dan matriks role</text>
+    <text x="66" y="493" fill="#35465d" font-size="14">• Kebutuhan fungsional</text>
+    <text x="66" y="525" fill="#35465d" font-size="14">• User flow / wireframe</text>
+    <text x="66" y="557" fill="#35465d" font-size="14">• Arsitektur MVC dan route</text>
+    <text x="66" y="589" fill="#35465d" font-size="14">• ERD dan kamus data</text>
+    <text x="66" y="621" fill="#35465d" font-size="14">• Endpoint API</text>
+    <text x="66" y="653" fill="#35465d" font-size="14">• Matriks validasi</text>
+
+    <rect x="335" y="346" width="260" height="444" rx="16" fill="#ffffff" stroke="#9bbce5" stroke-width="2"/>
+    <rect x="335" y="346" width="260" height="10" rx="5" fill="#2673c8"/>
+    <text x="356" y="390" fill="#174a83" font-size="17" font-weight="700">BAB III</text>
+    <text x="356" y="416" fill="#15243a" font-size="16" font-weight="700">Implementasi MVP</text>
+    <text x="356" y="461" fill="#35465d" font-size="14">• Versi tools dan lingkungan</text>
+    <text x="356" y="493" fill="#35465d" font-size="14">• Struktur repository</text>
+    <text x="356" y="525" fill="#35465d" font-size="14">• Blade dan CSS</text>
+    <text x="356" y="557" fill="#35465d" font-size="14">• Auth, session, dan role</text>
+    <text x="356" y="589" fill="#35465d" font-size="14">• Model, relasi, dan CRUD</text>
+    <text x="356" y="621" fill="#35465d" font-size="14">• API dan autentikasi sesi</text>
+    <text x="356" y="653" fill="#35465d" font-size="14">• Validasi dan penanganan error</text>
+
+    <rect x="625" y="346" width="260" height="444" rx="16" fill="#ffffff" stroke="#e4c992" stroke-width="2"/>
+    <rect x="625" y="346" width="260" height="10" rx="5" fill="#d58a15"/>
+    <text x="646" y="390" fill="#a56400" font-size="17" font-weight="700">BAB IV</text>
+    <text x="646" y="416" fill="#15243a" font-size="16" font-weight="700">Pengujian &amp; Integrasi</text>
+    <text x="646" y="461" fill="#35465d" font-size="14">• Skenario fungsi dan akses role</text>
+    <text x="646" y="493" fill="#35465d" font-size="14">• Tes API / Postman</text>
+    <text x="646" y="525" fill="#35465d" font-size="14">• Validasi dan error handling</text>
+    <text x="646" y="557" fill="#35465d" font-size="14">• Smoke test end-to-end</text>
+    <text x="646" y="589" fill="#35465d" font-size="14">• Daftar bug, severity, status</text>
+    <text x="646" y="621" fill="#35465d" font-size="14">• Definition of Done</text>
+
+    <rect x="915" y="346" width="240" height="444" rx="16" fill="#ffffff" stroke="#9bcbb0" stroke-width="2"/>
+    <rect x="915" y="346" width="240" height="10" rx="5" fill="#32845b"/>
+    <text x="936" y="390" fill="#226346" font-size="17" font-weight="700">BAB V</text>
+    <text x="936" y="416" fill="#15243a" font-size="16" font-weight="700">Manajemen &amp; Kolaborasi</text>
+    <text x="936" y="461" fill="#35465d" font-size="14">• Rencana dan realisasi</text>
+    <text x="936" y="487" fill="#35465d" font-size="14">  milestone M1–M3</text>
+    <text x="936" y="529" fill="#35465d" font-size="14">• Kontribusi setiap anggota</text>
+    <text x="936" y="555" fill="#35465d" font-size="14">• Bukti commit Git</text>
+    <text x="936" y="597" fill="#35465d" font-size="14">• Masalah selesai dan</text>
+    <text x="936" y="623" fill="#35465d" font-size="14">  kendala yang tersisa</text>
+  </g>
+</svg>

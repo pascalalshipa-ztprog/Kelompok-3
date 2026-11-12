@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" role="img" aria-labelledby="title desc">
+  <title id="title">Arsitektur dan tech stack aplikasi</title>
+  <desc id="desc">Alur request dari browser melalui route, autentikasi, controller, model, database, lalu respons Blade atau JSON, beserta teknologi proyek.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#55718f"/></marker></defs>
+  <rect width="1200" height="590" rx="24" fill="#f3f6fb"/>
+  <text x="52" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">ARSITEKTUR &amp; TECH STACK</text>
+  <text x="52" y="91" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Alur request MVC yang digunakan aplikasi.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="52" y="130" width="205" height="100" rx="15" fill="#e8f2ff" stroke="#9bbce5" stroke-width="2"/>
+    <text x="154" y="169" text-anchor="middle" fill="#174a83" font-size="18" font-weight="700">Browser</text>
+    <text x="154" y="199" text-anchor="middle" fill="#35465d" font-size="14">Mahasiswa &amp; Admin</text>
+    <rect x="296" y="130" width="205" height="100" rx="15" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="398" y="169" text-anchor="middle" fill="#15243a" font-size="18" font-weight="700">Route</text>
+    <text x="398" y="199" text-anchor="middle" fill="#35465d" font-size="14">routes/web.php</text>
+    <rect x="540" y="130" width="205" height="100" rx="15" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="642" y="169" text-anchor="middle" fill="#15243a" font-size="18" font-weight="700">Auth &amp; Policy</text>
+    <text x="642" y="199" text-anchor="middle" fill="#35465d" font-size="14">session • hak akses</text>
+    <rect x="784" y="130" width="175" height="100" rx="15" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="871" y="169" text-anchor="middle" fill="#15243a" font-size="18" font-weight="700">Controller</text>
+    <text x="871" y="199" text-anchor="middle" fill="#35465d" font-size="14">validasi request</text>
+    <rect x="998" y="130" width="150" height="100" rx="15" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="1073" y="169" text-anchor="middle" fill="#226346" font-size="18" font-weight="700">Model</text>
+    <text x="1073" y="199" text-anchor="middle" fill="#35465d" font-size="14">Eloquent</text>
+    <path d="M257 180 H286 M501 180 H530 M745 180 H774 M959 180 H988" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="998" y="270" width="150" height="84" rx="15" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="1073" y="305" text-anchor="middle" fill="#226346" font-size="16" font-weight="700">SQLite / MySQL</text>
+    <text x="1073" y="332" text-anchor="middle" fill="#35465d" font-size="13">SQLite default</text>
+    <path d="M1073 230 V260" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="354" y="270" width="300" height="84" rx="15" fill="#fff5e5" stroke="#e4c992" stroke-width="2"/>
+    <text x="504" y="305" text-anchor="middle" fill="#8a5a14" font-size="17" font-weight="700">View: Blade + CSS statis</text>
+    <text x="504" y="332" text-anchor="middle" fill="#35465d" font-size="14">HTML untuk halaman web</text>
+    <rect x="704" y="270" width="254" height="84" rx="15" fill="#f0ebff" stroke="#c0afe8" stroke-width="2"/>
+    <text x="831" y="305" text-anchor="middle" fill="#59429a" font-size="17" font-weight="700">JSON response</text>
+    <text x="831" y="332" text-anchor="middle" fill="#35465d" font-size="14">GET /api/complaints</text>
+    <path d="M871 230 C871 248 504 244 504 260" fill="none" stroke="#55718f" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M871 230 V260" stroke="#55718f" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="52" y="396" width="1096" height="140" rx="16" fill="#ffffff" stroke="#c9d7e8" stroke-width="2"/>
+    <text x="78" y="430" fill="#174a83" font-size="16" font-weight="700">TECH STACK</text>
+    <text x="78" y="466" fill="#35465d" font-size="15">Laravel 13</text>
+    <text x="242" y="466" fill="#35465d" font-size="15">PHP 8.3+</text>
+    <text x="406" y="466" fill="#35465d" font-size="15">SQLite / MySQL</text>
+    <text x="602" y="466" fill="#35465d" font-size="15">Blade + CSS</text>
+    <text x="776" y="466" fill="#35465d" font-size="15">Composer</text>
+    <text x="920" y="466" fill="#35465d" font-size="15">php artisan test</text>
+    <text x="78" y="505" fill="#56677f" font-size="14">Tanpa Node.js/Vite • Email reset kata sandi belum aktif melalui SMTP.</text>
+  </g>
+</svg>

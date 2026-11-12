@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="410" viewBox="0 0 1200 410" role="img" aria-labelledby="title desc">
+  <title id="title">Alur utama pengaduan mahasiswa</title>
+  <desc id="desc">Mahasiswa login, membuat laporan, admin meninjau dan mengubah status, lalu mahasiswa memantau hasilnya.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#55718f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="410" rx="24" fill="#f3f6fb"/>
+  <text x="55" y="62" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">ALUR PENGADUAN</text>
+  <text x="55" y="94" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Akses laporan dipisahkan berdasarkan role dan kepemilikan.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="42" y="165" width="170" height="126" rx="16" fill="#e8f2ff" stroke="#9bbce5" stroke-width="2"/>
+    <text x="127" y="205" text-anchor="middle" fill="#174a83" font-size="17" font-weight="700">Mahasiswa</text>
+    <text x="127" y="234" text-anchor="middle" fill="#35465d" font-size="15">login</text>
+    <text x="127" y="259" text-anchor="middle" fill="#35465d" font-size="15">ke /user</text>
+
+    <rect x="250" y="165" width="180" height="126" rx="16" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="340" y="205" text-anchor="middle" fill="#15243a" font-size="17" font-weight="700">Buat laporan</text>
+    <text x="340" y="234" text-anchor="middle" fill="#35465d" font-size="15">kategori • judul</text>
+    <text x="340" y="259" text-anchor="middle" fill="#35465d" font-size="15">deskripsi • lokasi</text>
+
+    <rect x="468" y="165" width="180" height="126" rx="16" fill="#fff5e5" stroke="#e4c992" stroke-width="2"/>
+    <text x="558" y="205" text-anchor="middle" fill="#8a5a14" font-size="17" font-weight="700">Menunggu</text>
+    <text x="558" y="234" text-anchor="middle" fill="#35465d" font-size="15">pemilik dapat</text>
+    <text x="558" y="259" text-anchor="middle" fill="#35465d" font-size="15">edit/hapus</text>
+
+    <rect x="686" y="165" width="180" height="126" rx="16" fill="#f0ebff" stroke="#c0afe8" stroke-width="2"/>
+    <text x="776" y="205" text-anchor="middle" fill="#59429a" font-size="17" font-weight="700">Admin meninjau</text>
+    <text x="776" y="234" text-anchor="middle" fill="#35465d" font-size="15">lihat semua</text>
+    <text x="776" y="259" text-anchor="middle" fill="#35465d" font-size="15">ubah status</text>
+
+    <rect x="904" y="165" width="245" height="126" rx="16" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="1026" y="205" text-anchor="middle" fill="#226346" font-size="17" font-weight="700">Diproses / Selesai</text>
+    <text x="1026" y="234" text-anchor="middle" fill="#35465d" font-size="15">atau Ditolak</text>
+    <text x="1026" y="259" text-anchor="middle" fill="#35465d" font-size="15">mahasiswa memantau</text>
+
+    <path d="M212 228 H240" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M430 228 H458" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M648 228 H676" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M866 228 H894" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+  </g>
+  <text x="55" y="350" fill="#56677f" font-family="Arial, sans-serif" font-size="15">Admin tidak mengubah isi laporan; hak edit mahasiswa berakhir setelah status tidak lagi Menunggu.</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Arsitektur aplikasi Sistem Pengaduan Mahasiswa</title>
+  <desc id="desc">Diagram alur browser ke route dan middleware Laravel, controller, model dan database; respons berupa Blade, JSON atau unduhan.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#55718f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="620" rx="24" fill="#f3f6fb"/>
+  <text x="55" y="62" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">ARSITEKTUR APLIKASI • LARAVEL MVC</text>
+  <text x="55" y="94" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Request halaman dan JSON memakai middleware sesi; bukan API token.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="55" y="170" width="220" height="110" rx="16" fill="#e8f2ff" stroke="#9bbce5" stroke-width="2"/>
+    <text x="165" y="211" text-anchor="middle" fill="#174a83" font-size="20" font-weight="700">Browser / Client</text>
+    <text x="165" y="244" text-anchor="middle" fill="#35465d" font-size="15">HTTP request</text>
+
+    <rect x="350" y="170" width="235" height="110" rx="16" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="467" y="211" text-anchor="middle" fill="#15243a" font-size="20" font-weight="700">Route + Middleware</text>
+    <text x="467" y="244" text-anchor="middle" fill="#35465d" font-size="15">routes/web.php • auth • role</text>
+
+    <rect x="660" y="170" width="220" height="110" rx="16" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="770" y="211" text-anchor="middle" fill="#15243a" font-size="20" font-weight="700">Controller</text>
+    <text x="770" y="244" text-anchor="middle" fill="#35465d" font-size="15">validasi • otorisasi</text>
+
+    <rect x="955" y="170" width="190" height="110" rx="16" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="1050" y="211" text-anchor="middle" fill="#226346" font-size="20" font-weight="700">Eloquent</text>
+    <text x="1050" y="244" text-anchor="middle" fill="#35465d" font-size="15">Model + relasi</text>
+
+    <path d="M275 225 H340" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M585 225 H650" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M880 225 H945" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="955" y="375" width="190" height="100" rx="16" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="1050" y="415" text-anchor="middle" fill="#226346" font-size="20" font-weight="700">SQLite / MySQL</text>
+    <text x="1050" y="446" text-anchor="middle" fill="#35465d" font-size="15">SQLite default</text>
+    <path d="M1050 280 V365" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="350" y="375" width="235" height="100" rx="16" fill="#fff5e5" stroke="#e4c992" stroke-width="2"/>
+    <text x="467" y="415" text-anchor="middle" fill="#8a5a14" font-size="20" font-weight="700">Blade View</text>
+    <text x="467" y="446" text-anchor="middle" fill="#35465d" font-size="15">HTML untuk halaman web</text>
+
+    <rect x="660" y="375" width="220" height="100" rx="16" fill="#f0ebff" stroke="#c0afe8" stroke-width="2"/>
+    <text x="770" y="415" text-anchor="middle" fill="#59429a" font-size="20" font-weight="700">JSON Resource</text>
+    <text x="770" y="446" text-anchor="middle" fill="#35465d" font-size="15">GET /api/complaints</text>
+
+    <path d="M770 280 C770 325 470 320 470 365" fill="none" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M770 280 V365" fill="none" stroke="#55718f" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M350 425 H285 V300" fill="none" stroke="#55718f" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+    <path d="M660 425 H610 V300" fill="none" stroke="#55718f" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+    <text x="55" y="550" fill="#56677f" font-size="15">Respons lain: redirect, error HTTP, CSV atau PDF (PDF perlu pemulihan/verifikasi dependency).</text>
+  </g>
+</svg>

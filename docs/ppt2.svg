@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Matriks hak akses mahasiswa dan admin</title>
+  <desc id="desc">Matriks izin mahasiswa dan admin untuk login, membuat dan melihat laporan, mengedit atau menghapus laporan, mengubah status, manajemen akun, ekspor CSV, dan endpoint baca-saja.</desc>
+  <rect width="1200" height="650" rx="24" fill="#f3f6fb"/>
+  <text x="52" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">ROLE MATRIX</text>
+  <text x="52" y="91" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Hak akses utama sesuai alur dan batasan aplikasi.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="52" y="122" width="1096" height="502" rx="14" fill="#ffffff" stroke="#c9d7e8" stroke-width="2"/>
+    <path d="M52 136 Q52 122 66 122 H1134 Q1148 122 1148 136 V174 H52 Z" fill="#183957"/>
+    <text x="78" y="157" fill="#ffffff" font-size="16" font-weight="700">FITUR</text>
+    <text x="751" y="157" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">MAHASISWA</text>
+    <text x="1015" y="157" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">ADMIN</text>
+    <g stroke="#dce4ee" stroke-width="1">
+      <path d="M52 174 H1148 M52 224 H1148 M52 274 H1148 M52 324 H1148 M52 374 H1148 M52 424 H1148 M52 474 H1148 M52 524 H1148 M52 574 H1148 M52 624 H1148"/>
+      <path d="M645 122 V624 M874 122 V624"/>
+    </g>
+    <g fill="#273c53" font-size="16">
+      <text x="78" y="206">Masuk dengan akun terdaftar</text>
+      <text x="78" y="256">Membuat pengaduan</text>
+      <text x="78" y="306">Melihat daftar/detail pengaduan</text>
+      <text x="78" y="356">Mengubah pengaduan sendiri saat Menunggu</text>
+      <text x="78" y="406">Menghapus pengaduan sendiri saat Menunggu</text>
+      <text x="78" y="456">Mengubah status pengaduan</text>
+      <text x="78" y="506">Mengelola akun mahasiswa</text>
+      <text x="78" y="556">Mengunduh rekap CSV</text>
+      <text x="78" y="606">GET /api/complaints (sesi login)</text>
+    </g>
+    <g font-size="25" font-weight="700" text-anchor="middle">
+      <text x="751" y="207" fill="#238052">✓</text><text x="1015" y="207" fill="#238052">✓</text>
+      <text x="751" y="257" fill="#238052">✓</text><text x="1015" y="257" fill="#9aa7b5">✗</text>
+      <text x="751" y="307" fill="#238052">✓</text><text x="1015" y="307" fill="#238052">✓</text>
+      <text x="751" y="357" fill="#238052">✓</text><text x="1015" y="357" fill="#9aa7b5">✗</text>
+      <text x="751" y="407" fill="#238052">✓</text><text x="1015" y="407" fill="#238052">✓</text>
+      <text x="751" y="457" fill="#9aa7b5">✗</text><text x="1015" y="457" fill="#238052">✓</text>
+      <text x="751" y="507" fill="#9aa7b5">✗</text><text x="1015" y="507" fill="#238052">✓</text>
+      <text x="751" y="557" fill="#9aa7b5">✗</text><text x="1015" y="557" fill="#238052">✓</text>
+      <text x="751" y="607" fill="#238052">✓*</text><text x="1015" y="607" fill="#238052">✓*</text>
+    </g>
+  </g>
+  <text x="56" y="660" fill="#56677f" font-family="Arial, sans-serif" font-size="14">*Endpoint memerlukan sesi login; mahasiswa hanya menerima laporan sendiri, sedangkan admin menerima semua laporan.</text>
+</svg>

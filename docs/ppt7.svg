@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Milestone M1 sampai M3 dan alur kerja tim</title>
+  <desc id="desc">M1 Idea and Design pada pertemuan 1 sampai 2, M2 Basic Build pada pertemuan 3 sampai 5, M3 MVP pada pertemuan 6 sampai 8, serta alur branch, pull request, review, dan merge.</desc>
+  <rect width="1200" height="520" rx="24" fill="#f3f6fb"/>
+  <text x="52" y="58" fill="#15243a" font-family="Arial, sans-serif" font-size="29" font-weight="700">MILESTONE &amp; ALUR KERJA TIM</text>
+  <text x="52" y="91" fill="#56677f" font-family="Arial, sans-serif" font-size="16">Tahapan sesuai rencana presentasi UTS • status diringkas dari repository dan hasil tes yang terdokumentasi.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="52" y="126" width="340" height="210" rx="18" fill="#ffffff" stroke="#9bcbb0" stroke-width="2"/>
+    <rect x="52" y="126" width="340" height="12" rx="6" fill="#32845b"/>
+    <text x="78" y="174" fill="#226346" font-size="17" font-weight="700">M1 • IDEA &amp; DESIGN</text>
+    <text x="78" y="207" fill="#15243a" font-size="18" font-weight="700">Pertemuan 1–2</text>
+    <text x="78" y="244" fill="#35465d" font-size="15">Kebutuhan, role, wireframe, ERD</text>
+    <rect x="78" y="278" width="135" height="30" rx="15" fill="#e8f6ef"/>
+    <text x="145" y="298" text-anchor="middle" fill="#226346" font-size="13" font-weight="700">SELESAI</text>
+
+    <rect x="430" y="126" width="340" height="210" rx="18" fill="#ffffff" stroke="#9bcbb0" stroke-width="2"/>
+    <rect x="430" y="126" width="340" height="12" rx="6" fill="#32845b"/>
+    <text x="456" y="174" fill="#226346" font-size="17" font-weight="700">M2 • BASIC BUILD</text>
+    <text x="456" y="207" fill="#15243a" font-size="18" font-weight="700">Pertemuan 3–5</text>
+    <text x="456" y="244" fill="#35465d" font-size="15">Database, auth, role, fitur inti</text>
+    <rect x="456" y="278" width="135" height="30" rx="15" fill="#e8f6ef"/>
+    <text x="523" y="298" text-anchor="middle" fill="#226346" font-size="13" font-weight="700">SELESAI</text>
+
+    <rect x="808" y="126" width="340" height="210" rx="18" fill="#ffffff" stroke="#e4c992" stroke-width="2"/>
+    <rect x="808" y="126" width="340" height="12" rx="6" fill="#d58a15"/>
+    <text x="834" y="174" fill="#8a5a14" font-size="17" font-weight="700">M3 • MVP</text>
+    <text x="834" y="207" fill="#15243a" font-size="18" font-weight="700">Pertemuan 6–8</text>
+    <text x="834" y="244" fill="#35465d" font-size="15">Integrasi, pengujian, dokumentasi</text>
+    <rect x="834" y="278" width="220" height="30" rx="15" fill="#fff1d8"/>
+    <text x="944" y="298" text-anchor="middle" fill="#9a5d00" font-size="13" font-weight="700">SELESAI SEBAGIAN</text>
+
+    <text x="52" y="386" fill="#15243a" font-size="17" font-weight="700">ALUR KOLABORASI</text>
+    <rect x="52" y="408" width="220" height="60" rx="14" fill="#e8f2ff" stroke="#9bbce5" stroke-width="2"/>
+    <text x="162" y="445" text-anchor="middle" fill="#174a83" font-size="16" font-weight="700">Branch feature/*</text>
+    <rect x="350" y="408" width="180" height="60" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="440" y="445" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">Pull request</text>
+    <rect x="608" y="408" width="180" height="60" rx="14" fill="#ffffff" stroke="#b7c8dc" stroke-width="2"/>
+    <text x="698" y="445" text-anchor="middle" fill="#15243a" font-size="16" font-weight="700">Review</text>
+    <rect x="866" y="408" width="220" height="60" rx="14" fill="#e8f6ef" stroke="#9bcbb0" stroke-width="2"/>
+    <text x="976" y="445" text-anchor="middle" fill="#226346" font-size="16" font-weight="700">Merge</text>
+    <path d="M272 438 H340 M530 438 H598 M788 438 H856" stroke="#55718f" stroke-width="3"/>
+    <path d="M332 431 L342 438 L332 445 M590 431 L600 438 L590 445 M848 431 L858 438 L848 445" fill="none" stroke="#55718f" stroke-width="3"/>
+  </g>
+</svg>
