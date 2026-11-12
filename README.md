@@ -391,11 +391,28 @@ Prioritas berikut adalah rencana, bukan fitur yang dinyatakan telah selesai:
 
 ### Dokumentasi
 
+- [Laporan Proyek UTS](docs/laporan-proyek.md) — BAB I–V, milestone M1–M3,
+  matriks peran dan validasi, daftar commit 34 kontribusi GitHub, bug, serta
+  kendala proyek.
 - [Panduan frontend](docs/frontend.md) — halaman, alur UI, aset, dan checklist pemeriksaan.
 - [Panduan backend](docs/README.md) — struktur backend, route, controller, keamanan akses, dan alur request.
 - [Panduan database](docs/database.md) — migration, konfigurasi, operasi, dan pemeriksaan database.
 - [ERD dan kamus data](docs/ERD.md) — relasi, field, constraint, dan hak akses.
 - [Laporan pengujian](docs/hasil-pengujian.md) — rincian hasil suite dan batasan verifikasi.
+
+#### Gambar dokumentasi
+
+![Struktur laporan proyek](docs/struktur-laporan-proyek.svg)
+
+![Roadmap milestone proyek M1–M3](docs/roadmap-m1-m3.svg)
+
+Diagram alur pengguna, arsitektur aplikasi, ERD, serta screenshot dashboard
+tersedia di [folder docs](docs/).
+
+SVG untuk materi presentasi tersedia sebagai [cakupan MVP](docs/ppt1.svg),
+[matriks peran](docs/ppt2.svg), [status kebutuhan MUST](docs/ppt3.svg),
+[arsitektur dan tech stack](docs/ppt4.svg), [user flow](docs/ppt5.svg),
+[ERD](docs/ppt6.svg), dan [milestone serta alur kerja](docs/ppt7.svg).
 
 Catatan kapasitas: ekspor CSV membaca data secara bertahap, tetapi ekspor PDF
 saat ini memuat seluruh pengaduan sekaligus ke memori untuk dirender. Jika jumlah
